@@ -16,15 +16,14 @@
 ---
 
 ## 2. 👥 Integrantes y Roles
-[cite_start]*Equipo de 5 integrantes (Requisito: 3 Algoritmos a implementar)*[cite: 29, 34].
 
 | Nombre del Estudiante | Rol | Tareas Principales |
 | :--- | :--- | :--- |
-| **[Nombre 1]** |  |  |
-| **[Nombre 2]** |  | |
-| **[Nombre 3]** |  |  |
-| **[Nombre 4]** |  |  |
-| **[Nombre 5]** |  |  |
+| **Mauro Lomeli Muñoz** |  |  |
+| **Julio Davila Acevedo** |  | |
+| **Erick Leonardo Chavez Ponce** |  |  |
+| **Juan Emmanuel Suarez Garcia** |  |  |
+| **Luis Fernando Silva Briones** |  |  |
 
 ---
 
@@ -61,10 +60,7 @@
 ---
 
 ## 9. 🏁 Conclusiones
-(Conclusión general del equipo sobre el aprendizaje de estructuras avanzadas y la metodología ágil aplicada).
 
 ---
 
 ## 10. 📚 Bibliografía
-1. Autor, A. (Año). Título del libro. Editorial.
-2. Cormen, T. H. (2009). Introduction to Algorithms. MIT Press.
