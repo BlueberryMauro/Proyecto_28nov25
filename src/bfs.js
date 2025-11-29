@@ -1,8 +1,3 @@
-/**
- * Algoritmo BFS (Breadth-First Search) para Matriz de Adyacencia
- * Hecho por: Julio.
- */
-
 function ejecutarBFS() {
     if (!window.grafo) {
         alert("Primero carga una matriz en el botón 'Cargar'.");
@@ -14,18 +9,18 @@ function ejecutarBFS() {
     const nodoInicio = 0; 
 
     let visitados = new Array(numVertices).fill(false);
-    let cola = [];
+    let cola = []; 
     let recorrido = [];
 
     visitados[nodoInicio] = true;
     cola.push(nodoInicio);
 
     while (cola.length > 0) {
-        let nodoActual = cola.shift();
+        let nodoActual = cola.shift(); 
         recorrido.push(nodoActual);
 
         for (let i = 0; i < numVertices; i++) {
-            if (grafo[nodoActual][i] === 1 && !visitados[i]) {
+            if (grafo[nodoActual][i] !== 0 && !visitados[i]) {
                 visitados[i] = true;
                 cola.push(i);
             }
