@@ -43,17 +43,17 @@ function dibujarGrafo(matriz){
 
     for(let i=0; i<n; i++){
         const angulo = i*anguloPaso - (Math.PI/2);
-        const x = centroX+radio*Math.cos(angulo);
-        const y = centroY+radio*Math.sin(angulo);
+        const x = centroX + radio * Math.cos(angulo);
+        const y = centroY + radio * Math.sin(angulo);
         coordenadas.push({x,y,id:i});
     }
 
-    ctx.strikeStyle = "#888";
-    ctx.lineWidth = 2;
+    ctx.strokeStyle = "rgba(139,148,158,0.4)"; 
+    ctx.lineWidth = 1.8;
 
     for(let i=0; i<n; i++){
         for(let j=0; j<n; j++){
-            if(matriz[i][j]!==0){
+            if(matriz[i][j] !== 0){
                 ctx.beginPath();
                 ctx.moveTo(coordenadas[i].x, coordenadas[i].y);
                 ctx.lineTo(coordenadas[j].x, coordenadas[j].y);
@@ -66,18 +66,23 @@ function dibujarGrafo(matriz){
         const nodo = coordenadas[i];
 
         ctx.beginPath();
-        ctx.arc(nodo.x, nodo.y, 20, 0 ,2*Math.PI);
-        ctx.fillStyle = "#3498db";
+        ctx.arc(nodo.x, nodo.y, 20, 0, 2*Math.PI);
+
+        ctx.fillStyle = "#21262d";
         ctx.fill();
-        ctx.strikeStyle = "#2980b9"
+
+        ctx.strokeStyle = "#30363d";
+        ctx.lineWidth = 2;
         ctx.stroke();
 
-        ctx.fillStyle = "white";
-        ctx.font = "bolt 16px Arial";
+        ctx.fillStyle = "#c9d1d9";
+        ctx.font = "bold 16px Arial";
         ctx.textAlign = "center";
-        ctx.fillText(i,nodo.x,nodo.y);
+        ctx.textBaseline = "middle";
+        ctx.fillText(i, nodo.x, nodo.y);
     }
 }
+
 
 btnEjecutar.addEventListener('click', () => {
     const opcion = document.getElementById("select-algoritmo").value;
