@@ -91,7 +91,21 @@ btnEjecutar.addEventListener('click', () => {
         if (typeof ejecutarBFS === "function") {
             ejecutarBFS();
         } else {
-            alert("No se encontró la función ejecutarBFS");
+            alert("No se encontró la función ejecutarBFS. Revisa si importaste bfs.js");
+        }
+    } 
+    else if (opcion === "2") {
+        if (typeof ejecutarDFS === "function") {
+            ejecutarDFS();
+        } else {
+            alert("No se encontró la función ejecutarDFS. Revisa si importaste dfs.js");
+        }
+    }
+    else if (opcion === "3") {
+        if (typeof ejecutarDijkstra === "function") {
+            ejecutarDijkstra();
+        } else {
+            alert("No se encontró la función ejecutarDijkstra. Revisa si importaste dijkstra.js");
         }
     }
 });
