@@ -1,10 +1,9 @@
-
 console.log("Main.js cargado correctamente");
 
 const btnCargar = document.getElementById('btn-cargar');
 const btnEjecutar = document.getElementById('btn-ejecutar');
 const btnBipartito = document.getElementById('btn-bipartito');
-const txtMatriz = document.getElementById("matriz-input");
+const txtMatriz = document.getElementById("matriz_input");
 const salida = document.getElementById("resultado");
 
 btnCargar.addEventListener('click', () => {
@@ -26,8 +25,15 @@ btnCargar.addEventListener('click', () => {
 });
 
 btnEjecutar.addEventListener('click', () => {
-    console.log("Ejecutando algoritmo...");
+    const opcion = document.getElementById("select-algoritmo").value;
     
+    if (opcion === "1") {
+        if (typeof ejecutarBFS === "function") {
+            ejecutarBFS();
+        } else {
+            alert("No se encontró la función ejecutarBFS");
+        }
+    }
 });
 
 btnBipartito.addEventListener('click', () => {
@@ -37,4 +43,3 @@ btnBipartito.addEventListener('click', () => {
         alert("No se encontró bipartito.js");
     }
 });
-
