@@ -1,7 +1,7 @@
 # Estructuras Avanzadas Computacionales
 ### Universidad Autónoma de Aguascalientes
 
-[![Ver Proyecto Web](https://img.shields.io/badge/🔮_Ver_Proyecto_Web-blueberrymauro.github.io-blue?style=for-the-badge&logo=github&color=3F5EFB)](https://blueberrymauro.github.io/Proyecto_28nov25/)
+[![Ver Proyecto Web](https://img.shields.io/badge/_Ver_Proyecto_Web-blueberrymauro.github.io-blue?style=for-the-badge&logo=github&color=3F5EFB)](https://blueberrymauro.github.io/Proyecto_28nov25/)
 
 ---
 
@@ -15,7 +15,7 @@
 
 ---
 
-## 2. 👥 Integrantes y Roles
+## 2. Integrantes y Roles
 
 | Nombre del Estudiante | Rol | Tareas Principales |
 | :--- | :--- | :--- |
@@ -27,24 +27,24 @@
 
 ---
 
-## 3. 🔄 Metodología Usada
+## 3. Metodología Usada
 **Marco de trabajo:** Kanban
 * **Herramienta:** Trello
 ---
 
-## 4. 📋 Capturas del Tablero
+## 4. Capturas del Tablero
 
 ---
 
-## 5. 💻 Capturas/Links del Repositorio
+## 5. Capturas/Links del Repositorio
 
 ---
 
-## 6. 🧮 Algoritmos Implementados
+## 6. Algoritmos Implementados
 
 ---
 
-## 7. 📊 Explicación Big-O por Algoritmo
+## 7. Explicación Big-O por Algoritmo
 *Análisis de complejidad temporal y espacial*
 
 | Algoritmo | Tiempo $O(f(n))$ | Espacio $O(g(n))$ | Explicación Breve |
@@ -55,12 +55,12 @@
 
 ---
 
-## 8. 📝 Análisis y Discusión
+## 8. Análisis y Discusión
 
 ---
 
-## 9. 🏁 Conclusiones
+## 9. Conclusiones
 
 ---
 
-## 10. 📚 Bibliografía
+## 10. Bibliografía
