@@ -1,52 +1,61 @@
 <!DOCTYPE html>
 <html lang="es">
-<center>
-    <head>
-        <meta charset="UTF-8">
-        <title>Proyecto Grafos</title>
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-        <marquee direction="right">PROYECTO GRAFOS</marquee>
-        
+<head>
+    <meta charset="UTF-8">
+    <title>Proyecto Grafos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>PROYECTO GRAFOS</h1> 
     <div class="cuadro">
 
-        
-            <h2>1. Grafo</h2>
-            <p>Definir si es Dirigido/No Dirigido y Ponderado/No Ponderado.</p>
-            <p>Zona para cargar datos de Vértices y Aristas.</p>
+        <h2>1. Grafo</h2>
+        <p>Definir si es Dirigido/No Dirigido y Ponderado/No Ponderado.</p>
+        <p>Zona para cargar datos de Vértices y Aristas.</p>
 
-            <textarea id="matriz_input" rows="6" cols="40"
+        <textarea id="matriz_input" rows="6" cols="40"
             placeholder="Ejemplo:
         0 1 0
         1 0 1
         0 1 0"></textarea><br>
 
-            <button type="button" id="btn-cargar">Cargar</button>
-            <button type="button" id="btn-bipartito">Bipartito</button>
-            <hr>
-
-            <h2>2. Algoritmo</h2>
-    <p>Seleccionar Algoritmo:</p>
-    <select id="select-algoritmo">
-        <option value="1">Algoritmo 1</option>
-        <option value="2">Algoritmo 2</option>
-        <option value="3">Algoritmo 3</option>
-    </select>
-    <button type="button" id="btn-ejecutar">Ejecutar</button>
+        <button type="button" id="btn-cargar">Cargar</button>
+        <button type="button" id="btn-bipartito">Bipartito</button>
+        <hr>
+        <h2>2. Emparejamientos</h2>
+        <button type="button" id="btn-matching">Calcular Emparejamientos</button>
+    
+         <pre id="resultado-matching">
+        Resultado de emparejamientos aparecerá aquí...
+         </pre>
+    
+    <h3>Análisis Emparejamientos</h3>
+    <p>Tiempo: <span id="tiempo-matching">--</span></p>
+    <p>Espacio: <span id="espacio-matching">--</span></p>
 
     <hr>
 
-    <h2>3. Resultado</h2>
-    <pre id="resultado">
-    Resultado final aparecerá aquí...
-    </pre>
-    
-    <h3>Análisis</h3>
-    <p>Tiempo: <span id="tiempo-analisis">--</span></p>
-    <p>Espacio: <span id="espacio-analisis">--</span></p>
+        <h2>2. Algoritmo</h2>
+        <p>Seleccionar Algoritmo:</p>
+        <select id="select-algoritmo">
+            <option value="1">Algoritmo 1</option>
+            <option value="2">Algoritmo 2</option>
+            <option value="3">Algoritmo 3</option>
+        </select>
+        <button type="button" id="btn-ejecutar">Ejecutar</button>
 
-    <script src="main.js"></script>
+        <hr>
+
+        <h2>3. Resultado</h2>
+        <pre id="resultado">
+        Resultado final aparecerá aquí...
+        </pre>
+        
+        <h3>Análisis</h3>
+        <p>Tiempo: <span id="tiempo-analisis">--</span></p>
+        <p>Espacio: <span id="espacio-analisis">--</span></p>
+
+    </div> <script src="main.js"></script>
     <script src="src/bipartito.js"></script>
     <script src="src/matching.js"></script>
 </body>
