@@ -12,6 +12,18 @@ hr {
 }
 
 button {
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 8%;
+    font-size: 15px;
+    color: white;
+    background-color: darkblue;
+    border: none;
     cursor: pointer;
     padding: 5px 10px;
+}
+
+button:hover {
+    font-style:oblique;
+    border: none;
+    background-color: blue;
 }
