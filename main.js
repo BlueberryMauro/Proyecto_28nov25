@@ -261,5 +261,7 @@ btnEjecutar.addEventListener('click',()=>{
     if(op=="3"&&typeof ejecutarDijkstra=="function"){ejecutarDijkstra();ok=true}
     if(op=="4"&&typeof ejecutarBipartito=="function"){ejecutarBipartito();ok=true}
     if(op=="5"&&typeof ejecutarMatching=="function"){ejecutarMatching();ok=true}
+    if(op=="6"&&typeof ejecutarBellman=="function"){ejecutarBellman();ok=true}
+    if(op=="7"&&typeof ejecutarFloyd=="function"){ejecutarFloyd();ok=true}
     if(ok)openConsole()
 })
