@@ -27,17 +27,25 @@
                 <div class="gh-box-header">
                     <h3>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon-svg"><path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" /></svg>
-                        Configuración del Grafo
+                        Definición y Visualización
                     </h3>
                 </div>
                 <div class="gh-box-body">
-                    <label class="input-label">Matriz de Adyacencia</label>
-                    <textarea id="matriz_input" rows="5" placeholder="0 1 0&#10;1 0 1&#10;0 1 0"></textarea>
+                    <label class="input-label">Matriz de Adyacencia (Pesos > 0 para ponderados)</label>
+                    <textarea id="matriz_input" rows="5" placeholder="0 5 0&#10;1 0 2&#10;0 3 0"></textarea>
                     
-                    <div class="btn-group">
-                        <button type="button" id="btn-cargar" class="btn btn-primary">Cargar Grafo</button>
-                        <button type="button" id="btn-bipartito" class="btn btn-secondary">Verificar Bipartito</button>
+                    <div class="checkbox-group">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="check-dirigido">
+                            <span>Grafo Dirigido</span>
+                        </label>
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="check-ponderado">
+                            <span>Grafo Ponderado</span>
+                        </label>
                     </div>
+
+                    <button type="button" id="btn-cargar" class="btn btn-primary full-width mb-3">Cargar y Dibujar Grafo</button>
 
                     <div class="canvas-wrapper">
                         <canvas id="lienzo" width="600" height="400"></canvas>
@@ -49,43 +57,27 @@
                 <div class="gh-box-header">
                     <h3>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon-svg"><path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" /></svg>
-                        Ejecución de Algoritmos
+                        Procesamiento y Análisis
                     </h3>
                 </div>
                 <div class="gh-box-body">
+                    <label class="input-label">Seleccionar Algoritmo</label>
                     <div class="controls-row">
                         <select id="select-algoritmo">
-                            <option value="1">Algoritmo 1 (BFS)</option>
-                            <option value="2">Algoritmo 2 (DFS)</option>
-                            <option value="3">Algoritmo 3 (Dijkstra)</option>
+                            <option value="1">Recorrido BFS (Anchura)</option>
+                            <option value="2">Recorrido DFS (Profundidad)</option>
+                            <option value="3">Algoritmo de Dijkstra</option>
+                            <option value="4">Verificar si es Bipartito</option>
+                            <option value="5">Calcular Emparejamientos (Matching)</option>
                         </select>
                         <button type="button" id="btn-ejecutar" class="btn btn-primary">Ejecutar</button>
                     </div>
                     
-                    <p class="help-text">Los resultados aparecerán en la consola lateral.</p>
+                    <p class="help-text">Al ejecutar, se abrirá el panel de resultados automáticamente.</p>
 
                     <div class="stats-footer">
                         <span>Tiempo: <strong id="tiempo-analisis">--</strong></span>
                         <span>Espacio: <strong id="espacio-analisis">--</strong></span>
-                    </div>
-                </div>
-            </section>
-
-            <section class="gh-box" data-scroll data-scroll-speed="1">
-                <div class="gh-box-header">
-                    <h3>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon-svg"><path stroke-linecap="round" stroke-linejoin="round" d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5M15 15l5.25 5.25" /></svg>
-                        Emparejamientos (Matching)
-                    </h3>
-                </div>
-                
-                <div class="gh-box-body">
-                    <p class="help-text">Los resultados aparecerán en la consola lateral.</p>
-                    <button type="button" id="btn-matching" class="btn btn-secondary full-width">Calcular Emparejamientos</button>
-                    
-                     <div class="stats-footer mt-3">
-                        <span>Tiempo: <strong id="tiempo-matching">--</strong></span>
-                        <span>Espacio: <strong id="espacio-matching">--</strong></span>
                     </div>
                 </div>
             </section>
@@ -106,18 +98,12 @@
         <div class="drawer-body">
             
             <div class="terminal-section">
-                <label class="terminal-label">Algoritmos General</label>
+                <label class="terminal-label">Salida de Ejecución</label>
                 <pre id="resultado" class="terminal-pre">$ Esperando ejecución...</pre>
-            </div>
-
-            <div class="terminal-section">
-                <label class="terminal-label">Matching / Emparejamientos</label>
-                 <pre id="resultado-matching" class="terminal-pre">$ Sin resultados recientes.</pre>
             </div>
 
         </div>
     </aside>
-
 
     <script src="src/bfs.js"></script>
     <script src="src/dfs.js"></script>
@@ -127,32 +113,5 @@
     <script src="main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
     
-    <script>
-        const scroll = new LocomotiveScroll({
-            el: document.querySelector('[data-scroll-container]'),
-            smooth: true,
-            multiplier: 0.8
-        });
-        new ResizeObserver(() => scroll.update()).observe(document.querySelector('.main-container'));
-
-        const toggleBtn = document.getElementById('toggle-console-btn');
-        const closeBtn = document.getElementById('close-console-btn');
-        const drawer = document.getElementById('console-drawer');
-        const overlay = document.getElementById('console-overlay');
-
-        function openConsole() {
-            drawer.classList.add('is-open');
-            overlay.classList.add('is-active');
-        }
-
-        function closeConsole() {
-            drawer.classList.remove('is-open');
-            overlay.classList.remove('is-active');
-        }
-
-        toggleBtn.addEventListener('click', openConsole);
-        closeBtn.addEventListener('click', closeConsole);
-        overlay.addEventListener('click', closeConsole);
-    </script>
 </body>
 </html>

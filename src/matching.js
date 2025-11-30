@@ -1,4 +1,4 @@
-document.getElementById('btn-matching').addEventListener('click', () => {
+window.ejecutarMatching = function() {
     const input = document.getElementById('matriz_input').value.trim();
     if (!input) {
         alert("Por favor ingresa una matriz de adyacencia.");
@@ -17,10 +17,9 @@ document.getElementById('btn-matching').addEventListener('click', () => {
     }
 
     const resMaximal = calcEmparejamientoMaximal(matriz, numVertices);
-
     const resMaximo = calcEmparejamientoMaximo(matriz, numVertices);
 
-    const output = document.getElementById('resultado-matching');
+    const output = document.getElementById('resultado');
     output.textContent = 
     `=== Emparejamiento Maximal (Greedy) ===\n` +
     `Cardinalidad: ${resMaximal.length}\n` +
@@ -29,9 +28,16 @@ document.getElementById('btn-matching').addEventListener('click', () => {
     `Cardinalidad: ${resMaximo.length}\n` +
     `Pares: ${JSON.stringify(resMaximo)}`;
 
-    document.getElementById('tiempo-matching').innerText = "Maximal: O(E) | Máximo: O(V*E)";
-    document.getElementById('espacio-matching').innerText = "O(V)";
-});
+    const lblTiempo = document.getElementById('tiempo-analisis');
+    const lblEspacio = document.getElementById('espacio-analisis');
+    
+    if (lblTiempo) lblTiempo.innerText = "Maximal: O(E) | Máximo: O(V*E)";
+    if (lblEspacio) lblEspacio.innerText = "O(V)";
+
+    // Limpiar el segundo panel por si acaso
+    const outputSecundario = document.getElementById('resultado-matching');
+    if(outputSecundario) outputSecundario.textContent = "";
+};
 
 function calcEmparejamientoMaximal(matriz, n) {
     let visitados = new Array(n).fill(false);
@@ -67,8 +73,6 @@ function calcEmparejamientoMaximo(matriz, n) {
         }
         return false;
     }
-
-    let matches = [];
     
     for (let u = 0; u < n; u++) {
         let visitados = new Array(n).fill(false);
