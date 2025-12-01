@@ -263,5 +263,7 @@ btnEjecutar.addEventListener('click',()=>{
     if(op=="5"&&typeof ejecutarMatching=="function"){ejecutarMatching();ok=true}
     if(op=="6"&&typeof ejecutarBellman=="function"){ejecutarBellman();ok=true}
     if(op=="7"&&typeof ejecutarFloyd=="function"){ejecutarFloyd();ok=true}
+    if(op=="8"&&typeof ejecutarPrim=="function"){ejecutarPrim();ok=true}
+    if(op=="9"&&typeof ejecutarKruskal=="function"){ejecutarKruskal();ok=true}
     if(ok)openConsole()
 })
