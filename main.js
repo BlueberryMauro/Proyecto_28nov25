@@ -10,7 +10,8 @@ const canvas = document.getElementById("lienzo")
 const ctx = canvas.getContext("2d")
 const chkDirigido = document.getElementById("check-dirigido")
 const chkPonderado = document.getElementById("check-ponderado")
-
+const inputArchivo = document.getElementById("input-archivo")
+const btnImportar = document.getElementById("btn-importar-archivo")
 const toggleBtn = document.getElementById("toggle-console-btn")
 const closeBtn = document.getElementById("close-console-btn")
 const drawer = document.getElementById("console-drawer")
@@ -47,6 +48,33 @@ gain.gain.value = 0
 osc.connect(gain)
 gain.connect(audioCtx.destination)
 osc.start()
+
+if (btnImportar && inputArchivo) {
+    btnImportar.addEventListener('click', () => {
+        inputArchivo.click()
+    })
+
+    inputArchivo.addEventListener('change', (e) => {
+        const archivo = e.target.files[0]
+        if (!archivo) return
+
+        const lector = new FileReader()
+        lector.onload = (evento) => {
+            // 1. Poner el texto en el área de texto
+            txtMatriz.value = evento.target.result
+            
+            // 2. Limpiar colores anteriores si existían
+            window.coloresBipartito = null
+            
+            // 3. Simular click en Cargar para activar las físicas y el dibujo
+            btnCargar.click()
+            
+            // 4. Limpiar input para permitir recargar el mismo archivo
+            inputArchivo.value = ''
+        }
+        lector.readAsText(archivo)
+    })
+}
 
 btnCargar.addEventListener('click', () => {
     const txt = txtMatriz.value.trim()
