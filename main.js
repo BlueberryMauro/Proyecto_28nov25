@@ -277,5 +277,6 @@ btnEjecutar.addEventListener('click',()=>{
     if(op=="7"&&typeof ejecutarFloyd=="function"){ejecutarFloyd();ok=true}
     if(op=="8"&&typeof ejecutarPrim=="function"){ejecutarPrim();ok=true}
     if(op=="9"&&typeof ejecutarKruskal=="function"){ejecutarKruskal();ok=true}
+    if (op == "10" && typeof ejecutarEsArbol == "function") { ejecutarEsArbol(); ok = true }
     if(ok)openConsole()
 })
