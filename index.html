@@ -18,6 +18,12 @@
         </svg>
     </button>
 
+    <button id="toggle-examples-btn" class="floating-btn" style="top: 84px;" aria-label="Abrir ejemplos">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+        </svg>          
+    </button>
+
     <div data-scroll-container>
         
         <main class="main-container">
@@ -125,6 +131,19 @@
             <div class="terminal-section">
                 <label class="terminal-label">Salida de Ejecución</label>
                 <pre id="resultado" class="terminal-pre">$ Esperando ejecución...</pre>
+            </div>
+        </div>
+    </aside>
+
+    <aside class="console-drawer" id="examples-drawer">
+        <div class="drawer-header">
+            <h3>Ejemplos de Grafos</h3>
+            <button id="close-examples-btn" class="close-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+        </div>
+        <div class="drawer-body">
+            <div id="examples-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
             </div>
         </div>
     </aside>

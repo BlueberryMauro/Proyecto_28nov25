@@ -17,6 +17,11 @@ const closeBtn = document.getElementById("close-console-btn")
 const drawer = document.getElementById("console-drawer")
 const overlay = document.getElementById("console-overlay")
 
+const toggleExamplesBtn = document.getElementById("toggle-examples-btn")
+const closeExamplesBtn = document.getElementById("close-examples-btn")
+const examplesDrawer = document.getElementById("examples-drawer")
+const examplesGrid = document.getElementById("examples-grid")
+
 setTimeout(() => {
     if (window.LocomotiveScroll) {
         const scroll = new LocomotiveScroll({
@@ -32,6 +37,7 @@ function openConsole() {
     drawer.classList.add('is-open'); 
     overlay.classList.add('is-active');
     reproducirSonido(soundOpen);
+    examplesDrawer.classList.remove('is-open');
 }
 
 function closeConsole() { 
@@ -40,9 +46,24 @@ function closeConsole() {
     reproducirSonido(soundClose);
 }
 
+function openExamples() {
+    examplesDrawer.classList.add('is-open');
+    overlay.classList.add('is-active');
+    reproducirSonido(soundOpen);
+    drawer.classList.remove('is-open'); 
+}
+
+function closeExamples() {
+    examplesDrawer.classList.remove('is-open');
+    overlay.classList.remove('is-active');
+    reproducirSonido(soundClose);
+}
+
 toggleBtn.addEventListener('click', openConsole)
 closeBtn.addEventListener('click', closeConsole)
-overlay.addEventListener('click', closeConsole)
+overlay.addEventListener('click', () => { closeConsole(); closeExamples(); })
+toggleExamplesBtn.addEventListener('click', openExamples)
+closeExamplesBtn.addEventListener('click', closeExamples)
 
 let nodos = []
 let dragging = null
@@ -58,8 +79,6 @@ osc.connect(gain)
 gain.connect(audioCtx.destination)
 osc.start()
 
-
-
 const soundOpen = new Audio("assets/sounds/open.wav");
 const soundClose = new Audio("assets/sounds/close.wav");
 const soundClick = new Audio("assets/sounds/click.wav");
@@ -70,7 +89,7 @@ soundClick.preload = 'auto';
 function reproducirSonido(audio) {
     if (audio) {
         audio.currentTime = 0;
-        audio.play().catch(e => console.warn("Error al reproducir audio (revisa la ruta):", e));
+        audio.play().catch(e => console.warn("Error al reproducir audio:", e));
     }
 }
 
@@ -202,8 +221,6 @@ canvas.addEventListener("mousedown", e => {
 })
 
 document.addEventListener("mouseup", () => {
-    if (dragging) {
-    }
     dragging = null
 })
 
@@ -308,3 +325,140 @@ btnEjecutar.addEventListener('click',()=>{
     if (op == "10" && typeof ejecutarEsArbol == "function") { ejecutarEsArbol(); ok = true }
     if(ok)openConsole()
 })
+
+const ejemplos = [
+    {
+        titulo: "DFS/BFS Simple",
+        desc: "Grafo conexo no dirigido básico",
+        dir: false, pond: false,
+        matriz: "0 1 1 0 0\n1 0 1 1 0\n1 1 0 0 1\n0 1 0 0 1\n0 0 1 1 0"
+    },
+    {
+        titulo: "Dijkstra (Rutas)",
+        desc: "Ponderado, pesos positivos",
+        dir: true, pond: true,
+        matriz: "0 10 5 0 0\n0 0 2 1 0\n0 3 0 9 2\n0 0 0 0 4\n7 0 0 6 0"
+    },
+    {
+        titulo: "Bipartito",
+        desc: "Se puede dividir en 2 conjuntos",
+        dir: false, pond: false,
+        matriz: "0 1 0 1\n1 0 1 0\n0 1 0 1\n1 0 1 0"
+    },
+    {
+        titulo: "Matching",
+        desc: "Grafo para emparejamientos",
+        dir: false, pond: false,
+        matriz: "0 1 1 0 0 0\n1 0 0 1 0 0\n1 0 0 1 0 0\n0 1 1 0 1 1\n0 0 0 1 0 1\n0 0 0 1 1 0"
+    },
+    {
+        titulo: "Bellman-Ford",
+        desc: "Pesos negativos (sin ciclos neg)",
+        dir: true, pond: true,
+        matriz: "0 4 0 5\n0 0 0 5\n0 -2 0 0\n0 0 3 0"
+    },
+    {
+        titulo: "Floyd-Warshall",
+        desc: "Denso, todos contra todos",
+        dir: true, pond: true,
+        matriz: "0 3 8 0\n0 0 0 1\n0 4 0 0\n2 0 -5 0"
+    },
+    {
+        titulo: "Prim / Kruskal",
+        desc: "MST, ponderado no dirigido",
+        dir: false, pond: true,
+        matriz: "0 2 0 6 0\n2 0 3 8 5\n0 3 0 0 7\n6 8 0 0 9\n0 5 7 9 0"
+    },
+    {
+        titulo: "Árbol",
+        desc: "Nodos N, Aristas N-1, Acíclico",
+        dir: false, pond: false,
+        matriz: "0 1 0 0 0\n1 0 1 1 0\n0 1 0 0 0\n0 1 0 0 1\n0 0 0 1 0"
+    }
+]
+
+function renderExamples() {
+    examplesGrid.innerHTML = ""
+    ejemplos.forEach((ex, idx) => {
+        const item = document.createElement("div")
+        item.style.background = "#161b22"
+        item.style.border = "1px solid #30363d"
+        item.style.borderRadius = "6px"
+        item.style.padding = "10px"
+        item.style.cursor = "pointer"
+        item.style.transition = "0.2s"
+        item.style.display = "flex"
+        item.style.flexDirection = "column"
+        item.style.alignItems = "center"
+        item.title = ex.desc
+
+        const miniCanvas = document.createElement("canvas")
+        miniCanvas.width = 120
+        miniCanvas.height = 80
+        miniCanvas.style.marginBottom = "8px"
+        
+        const label = document.createElement("span")
+        label.textContent = ex.titulo
+        label.style.color = "#c9d1d9"
+        label.style.fontSize = "12px"
+        label.style.fontWeight = "bold"
+        label.style.textAlign = "center"
+
+        item.appendChild(miniCanvas)
+        item.appendChild(label)
+
+        item.addEventListener("mouseenter", () => item.style.borderColor = "#58a6ff")
+        item.addEventListener("mouseleave", () => item.style.borderColor = "#30363d")
+        item.addEventListener("click", () => {
+            txtMatriz.value = ex.matriz
+            chkDirigido.checked = ex.dir
+            chkPonderado.checked = ex.pond
+            btnCargar.click()
+            closeExamples()
+        })
+
+        examplesGrid.appendChild(item)
+        
+        setTimeout(() => dibujarMiniatura(miniCanvas, ex.matriz, ex.dir), 100)
+    })
+}
+
+function dibujarMiniatura(cvs, strMatriz, dirigido) {
+    const ctxM = cvs.getContext("2d")
+    const m = strMatriz.split("\n").map(r => r.trim().split(/\s+/).map(Number))
+    const n = m.length
+    const cx = cvs.width / 2
+    const cy = cvs.height / 2
+    const r = 30
+    
+    ctxM.clearRect(0, 0, cvs.width, cvs.height)
+    ctxM.strokeStyle = "rgba(139,148,158,0.5)"
+    ctxM.lineWidth = 1
+
+    const pos = []
+    const step = (2 * Math.PI) / n
+    for(let i=0; i<n; i++){
+        pos.push({ x: cx + r * Math.cos(i*step - Math.PI/2), y: cy + r * Math.sin(i*step - Math.PI/2) })
+    }
+
+    for(let i=0; i<n; i++){
+        for(let j=0; j<n; j++){
+            if(m[i][j]!==0){
+                if(!dirigido && i>j) continue
+                ctxM.beginPath()
+                ctxM.moveTo(pos[i].x, pos[i].y)
+                ctxM.lineTo(pos[j].x, pos[j].y)
+                ctxM.stroke()
+            }
+        }
+    }
+
+    for(let p of pos){
+        ctxM.beginPath()
+        ctxM.arc(p.x, p.y, 4, 0, Math.PI*2)
+        ctxM.fillStyle = "#58a6ff"
+        ctxM.fill()
+    }
+}
+
+renderExamples()
