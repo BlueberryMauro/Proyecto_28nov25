@@ -165,9 +165,9 @@ function dibujarGrafo(matriz, dirigido, ponderado, arrayColores = null) {
         
         if (arrayColores && arrayColores[n1.id] !== -1 && arrayColores[n1.id] !== undefined) {
             if (arrayColores[n1.id] === 0) {
-                ctx.fillStyle = "#ff6b6b"
+                ctx.fillStyle = "#f85149"
             } else {
-                ctx.fillStyle = "#4ecdc4"
+                ctx.fillStyle = "#48b6a3"
             }
         } else {
             ctx.fillStyle = "#21262d"
@@ -178,7 +178,7 @@ function dibujarGrafo(matriz, dirigido, ponderado, arrayColores = null) {
         ctx.lineWidth = 2
         ctx.stroke()
         
-        ctx.fillStyle = "#c9d1d9"
+        ctx.fillStyle = "#ffffffff"
         ctx.font = "bold 16px Arial"
         ctx.textAlign = "center"
         ctx.textBaseline = "middle"
