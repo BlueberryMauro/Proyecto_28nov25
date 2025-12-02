@@ -125,6 +125,10 @@ function dibujarGrafo(matriz, dirigido, ponderado, arrayColores = null) {
             nodos.push({ x: cx + r * Math.cos(a), y: cy + r * Math.sin(a), vx: 0, vy: 0, id: i, lx: cx, ly: cy })
         }
     }
+    
+    // --- CURSOR INFO --- ///
+    window.nodos = nodos; 
+    // ----------------------------- //
 
     ctx.lineWidth = 1.8
     ctx.strokeStyle = "rgba(139,148,158,0.4)"

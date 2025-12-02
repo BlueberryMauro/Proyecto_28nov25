@@ -338,3 +338,40 @@ canvas { background-color: #0d1117 !important; max-width: 100%; height: auto; }
 }
 
 #resultado-matching { color: #58a6ff;}
+
+/* --- CURSOR INFO --- */
+.graph-tooltip {
+    display: none;
+    position: absolute;
+    background-color: rgba(22, 27, 34, 0.95);
+    border: 1px solid var(--border-default);
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    color: var(--fg-default);
+    pointer-events: none;
+    z-index: 10000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px);
+    max-width: 250px;
+    line-height: 1.6;
+}
+
+.graph-tooltip strong {
+    color: var(--accent-fg);
+    font-size: 14px;
+    display: block;
+    margin-bottom: 4px;
+    border-bottom: 1px solid var(--border-muted);
+    padding-bottom: 4px;
+}
+
+.badge-peso {
+    background-color: var(--border-muted);
+    padding: 1px 4px;
+    border-radius: 4px;
+    font-size: 10px;
+    color: var(--fg-muted);
+    margin-left: 2px;
+}
+/* ----------------------------- */
