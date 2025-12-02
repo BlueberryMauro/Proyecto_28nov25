@@ -1,4 +1,4 @@
-// --- CURSOR INFO --- ///
+// ---- CURSOR INFO ---- ///
 const tooltip = document.createElement('div');
 tooltip.className = 'graph-tooltip';
 document.body.appendChild(tooltip);
