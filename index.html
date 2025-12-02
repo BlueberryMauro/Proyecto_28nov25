@@ -74,16 +74,27 @@
                     <label class="input-label">Seleccionar Algoritmo</label>
                     <div class="controls-row">
                         <select id="select-algoritmo">
-                            <option value="1">Recorrido BFS (Anchura)</option>
-                            <option value="2">Recorrido DFS (Profundidad)</option>
-                            <option value="3">Algoritmo de Dijkstra</option>
-                            <option value="4">Verificar si es Bipartito</option>
-                            <option value="5">Calcular Emparejamientos (Matching)</option>
-                            <option value="6">Algoritmo de Bellman-Ford</option>
-                            <option value="7">Algoritmo de Floyd-Warshall</option>
-                            <option value="8">Algoritmo de Prim (MST)</option>
-                            <option value="9">Algoritmo de Kruskal (MST)</option>
-                            <option value="10">Detectar si es un Árbol</option>
+                            <optgroup label="Recorridos (Búsqueda)" style="color: #2ea043;">
+                                <option value="1" style="color: var(--fg-default);">Recorrido BFS (Anchura)</option>
+                                <option value="2" style="color: var(--fg-default);">Recorrido DFS (Profundidad)</option>
+                            </optgroup>
+                            
+                            <optgroup label="Rutas Más Cortas" style="color: #2ea043;">
+                                <option value="3" style="color: var(--fg-default);">Algoritmo de Dijkstra</option>
+                                <option value="6" style="color: var(--fg-default);">Algoritmo de Bellman-Ford</option>
+                                <option value="7" style="color: var(--fg-default);">Algoritmo de Floyd-Warshall</option>
+                            </optgroup>
+                            
+                            <optgroup label="Árboles de Expansión (MST)" style="color: #2ea043;">
+                                <option value="8" style="color: var(--fg-default);">Algoritmo de Prim</option>
+                                <option value="9" style="color: var(--fg-default);">Algoritmo de Kruskal</option>
+                            </optgroup>
+
+                            <optgroup label="Propiedades y Estructura" style="color: #2ea043;">
+                                <option value="4" style="color: var(--fg-default);">Verificar si es Bipartito</option>
+                                <option value="5" style="color: var(--fg-default);">Calcular Emparejamientos (Matching)</option>
+                                <option value="10" style="color: var(--fg-default);">Detectar si es un Árbol</option>
+                            </optgroup>
                         </select>
                         <button type="button" id="btn-ejecutar" class="btn btn-primary">Ejecutar</button>
                     </div>
@@ -97,7 +108,7 @@
                 </div>
             </section>
 
-            <div style="height: 100px;"></div>
+            <div style="height: 500px;"></div>
         </main>
     </div>
 
