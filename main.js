@@ -28,8 +28,17 @@ setTimeout(() => {
     }
 }, 100)
 
-function openConsole() { drawer.classList.add('is-open'); overlay.classList.add('is-active') }
-function closeConsole() { drawer.classList.remove('is-open'); overlay.classList.remove('is-active') }
+function openConsole() { 
+    drawer.classList.add('is-open'); 
+    overlay.classList.add('is-active');
+    reproducirSonido(soundOpen);
+}
+
+function closeConsole() { 
+    drawer.classList.remove('is-open'); 
+    overlay.classList.remove('is-active');
+    reproducirSonido(soundClose);
+}
 
 toggleBtn.addEventListener('click', openConsole)
 closeBtn.addEventListener('click', closeConsole)
@@ -49,34 +58,24 @@ osc.connect(gain)
 gain.connect(audioCtx.destination)
 osc.start()
 
-if (btnImportar && inputArchivo) {
-    btnImportar.addEventListener('click', () => {
-        inputArchivo.click()
-    })
 
-    inputArchivo.addEventListener('change', (e) => {
-        const archivo = e.target.files[0]
-        if (!archivo) return
 
-        const lector = new FileReader()
-        lector.onload = (evento) => {
-            // 1. Poner el texto en el área de texto
-            txtMatriz.value = evento.target.result
-            
-            // 2. Limpiar colores anteriores si existían
-            window.coloresBipartito = null
-            
-            // 3. Simular click en Cargar para activar las físicas y el dibujo
-            btnCargar.click()
-            
-            // 4. Limpiar input para permitir recargar el mismo archivo
-            inputArchivo.value = ''
-        }
-        lector.readAsText(archivo)
-    })
+const soundOpen = new Audio("assets/sounds/open.wav");
+const soundClose = new Audio("assets/sounds/close.wav");
+const soundClick = new Audio("assets/sounds/click.wav");
+soundOpen.preload = 'auto';
+soundClose.preload = 'auto';
+soundClick.preload = 'auto';
+
+function reproducirSonido(audio) {
+    if (audio) {
+        audio.currentTime = 0;
+        audio.play().catch(e => console.warn("Error al reproducir audio (revisa la ruta):", e));
+    }
 }
 
 btnCargar.addEventListener('click', () => {
+    reproducirSonido(soundClick);
     const txt = txtMatriz.value.trim()
     if (!txt) { alert("Inserta una matriz primero"); return }
     const matriz = txt.split("\n").map(r => r.trim().split(/\s+/).map(Number))
@@ -294,6 +293,7 @@ function loop() {
 loop()
 
 btnEjecutar.addEventListener('click',()=>{
+    reproducirSonido(soundClick);
     const op=document.getElementById("select-algoritmo").value
     let ok=false
     if(op=="1"&&typeof ejecutarBFS=="function"){ejecutarBFS();ok=true}
