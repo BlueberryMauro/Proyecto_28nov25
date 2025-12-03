@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Unitario BFS</title>
+</head>
+<body>
+    <div id="resultado" style="display: block; border: 1px solid #ccc; padding: 10px;"></div>
+    <div id="tiempo-analisis"></div>
+    <div id="espacio-analisis"></div>
+
+    <script src="../src/bfs.js"></script>
+    <script>
+        console.log("Iniciando entorno de prueba para BFS...");
+        
+        window.grafo = [
+            [0, 1, 1, 0],
+            [1, 0, 0, 1],
+            [1, 0, 0, 1],
+            [0, 1, 1, 0]
+        ];
+        
+        window.nodoSeleccionado = 0;
+
+        try {
+            console.time("EjecucionBFS");
+            if (typeof ejecutarBFS === 'function') {
+                ejecutarBFS();
+                const salida = document.getElementById("resultado").textContent;
+                if (salida.includes("Recorrido BFS")) {
+                    document.body.innerHTML += "<h3 style='color:green'>PRUEBA EXITOSA: El algoritmo BFS generó salida.</h3>";
+                } else {
+                    throw new Error("Salida vacía o incorrecta");
+                }
+            } else {
+                throw new Error("Funcion ejecutarBFS no encontrada");
+            }
+            console.timeEnd("EjecucionBFS");
+        } catch (error) {
+            document.body.innerHTML += "<h3 style='color:red'>PRUEBA FALLIDA: " + error.message + "</h3>";
+            console.error(error);
+        }
+    </script>
+</body>
+</html>

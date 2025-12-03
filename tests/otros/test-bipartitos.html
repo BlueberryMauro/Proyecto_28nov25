@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Test Dijkstra - Edge Case</title>
+</head>
+<body>
+    <div id="resultado"></div>
+    <div id="tiempo-analisis"></div>
+    <div id="espacio-analisis"></div>
+
+    <script src="../src/dijkstra.js"></script>
+    <script>
+        // Sobreescribir alert para no bloquear la prueba
+        window.alert = function(msg) { console.warn("Alerta del sistema: " + msg); };
+
+        window.grafo = [
+            [0, -5, 0], // PESO NEGATIVO AQUI
+            [0, 0, 10],
+            [0, 0, 0]
+        ];
+        window.nodoSeleccionado = 0;
+
+        document.write("<h2>Prueba de Robustez Dijkstra (Pesos Negativos)</h2>");
+        
+        try {
+            ejecutarDijkstra();
+            
+            // Verificamos si calculó algo "raro"
+            const res = document.getElementById("resultado").textContent;
+            console.log("Salida raw:", res);
+
+            // Dijkstra suele fallar o ciclarse con negativos, aqui simulamos que detectamos el fallo
+            if (res.includes("Costo -5")) {
+                document.write("<strong style='color:orange'>ADVERTENCIA:</strong> Dijkstra calculó un costo negativo. Validar con Bellman-Ford.");
+            } else {
+                document.write("Ejecución finalizada sin excepciones críticas.");
+            }
+
+        } catch (e) {
+            document.write("<strong style='color:red'>EXCEPCION DE TIEMPO DE EJECUCION:</strong> " + e);
+        }
+    </script>
+</body>
+</html>

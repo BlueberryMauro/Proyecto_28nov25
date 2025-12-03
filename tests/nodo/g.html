@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+    body {
+        margin: 0;
+        overflow: hidden;
+        height: 100vh;
+        background: #111;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    #ball {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: #ff4444;
+        position: absolute;
+        cursor: grab;
+    }
+</style>
+</head>
+<body>
+
+<div id="ball"></div>
+
+<script>
+const sndGrab = new Audio("./assets/sonidos/agarrar.wav");
+const sndRelease = new Audio("./assets/sonidos/soltar.wav");
+
+sndGrab.volume = 0.8;
+sndRelease.volume = 0.8;
+
+const ball = document.getElementById("ball");
+
+let isDragging = false;
+let mouse = { x: 0, y: 0 };
+let pos = { x: window.innerWidth/2, y: window.innerHeight/2 };
+let vel = { x: 0, y: 0 };
+
+const followSmooth = 0.15;
+const friction = 0.92;
+
+let last = { x: pos.x, y: pos.y };
+
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+const osc = audioCtx.createOscillator();
+osc.type = "sine";
+
+let baseFreq = 60;
+osc.frequency.value = baseFreq;
+
+const gain = audioCtx.createGain();
+gain.gain.value = 0;
+
+osc.connect(gain);
+gain.connect(audioCtx.destination);
+osc.start();
+
+ball.addEventListener("mousedown", e => {
+    isDragging = true;
+    audioCtx.resume();
+
+    sndGrab.currentTime = 0;
+    sndGrab.playbackRate = 0.95 + Math.random() * 0.1;
+    sndGrab.play().catch(err => console.log("Error grab:", err));
+
+    ball.style.cursor = "grabbing";
+});
+
+document.addEventListener("mouseup", () => {
+
+    if (isDragging) {
+        sndRelease.currentTime = 0;
+        sndRelease.play().catch(err => console.log("Error soltar:", err));
+    }
+
+    isDragging = false;
+    ball.style.cursor = "grab";
+});
+
+document.addEventListener("mousemove", e => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+});
+
+function loop() {
+
+    if (isDragging) {
+        pos.x += (mouse.x - pos.x) * followSmooth;
+        pos.y += (mouse.y - pos.y) * followSmooth;
+
+        vel.x = pos.x - last.x;
+        vel.y = pos.y - last.y;
+    } else {
+        pos.x += vel.x;
+        pos.y += vel.y;
+        vel.x *= friction;
+        vel.y *= friction;
+    }
+
+    ball.style.left = pos.x - 30 + "px";
+    ball.style.top = pos.y - 30 + "px";
+
+    const speed = Math.sqrt(vel.x * vel.x + vel.y * vel.y);
+
+    let vol = Math.min(speed * 0.06, 1) * 0.08;
+    gain.gain.setTargetAtTime(speed > 0.15 ? vol : 0, audioCtx.currentTime, 0.04);
+
+    let freq = baseFreq + speed * 6;
+    osc.frequency.setTargetAtTime(freq, audioCtx.currentTime, 0.04);
+
+    last.x = pos.x;
+    last.y = pos.y;
+
+    requestAnimationFrame(loop);
+}
+
+loop();
+</script>
+
+</body>
+</html>

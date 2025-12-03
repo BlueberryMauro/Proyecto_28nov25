@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selección de Roles - Github Theme Clean</title>
+    <style>
+        /* VARIABLES DEL TEMA GITHUB */
+        :root {
+            --bg-canvas: #0d1117;
+            --bg-canvas-subtle: #161b22;
+            --border-default: #30363d;
+            --border-muted: #21262d;
+            --fg-default: #c9d1d9;
+            --fg-muted: #8b949e;
+            --accent-fg: #58a6ff;
+            
+            /* Fuentes Github */
+            --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+        }
+
+        body {
+            background-color: var(--bg-canvas);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            font-family: var(--font-stack);
+            color: var(--fg-default);
+            line-height: 1.5;
+        }
+
+        /* --- OVERLAY INVISIBLE --- */
+        /* Modificado: Ahora es transparente y sin blur, pero sigue ahí para detectar el clic de cierre */
+        #overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: transparent; 
+            pointer-events: none;
+            z-index: 50;
+        }
+
+        #overlay.active {
+            pointer-events: auto; /* Permite hacer clic para cerrar */
+        }
+
+        /* --- MANO DE CARTAS (Contenedor) --- */
+        .hand-container {
+            display: flex;
+            gap: 15px;
+            perspective: 1000px;
+            padding: 50px;
+            position: relative;
+            z-index: 60;
+        }
+
+        .card-wrapper {
+            position: relative;
+            z-index: 1;
+            animation: float 4s ease-in-out infinite;
+            transition: z-index 0s linear 0.6s; 
+        }
+
+        .card-wrapper.active-wrapper {
+            z-index: 2000 !important;
+            transition: z-index 0s linear 0s;
+        }
+
+        .card-wrapper.paused {
+            animation-play-state: paused;
+        }
+
+        .pixel-card {
+            width: 120px;
+            height: auto;
+            image-rendering: pixelated; 
+            backface-visibility: hidden;
+            transform: translateZ(0);
+            will-change: transform;
+            transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1), 
+                        filter 0.6s ease;
+            transform-origin: center center;
+            cursor: pointer;
+            -webkit-user-drag: none;
+            user-select: none;
+            
+            /* Sombra suave estilo github hover */
+        }
+
+        .hand-container.has-active .pixel-card:not(.active) {
+            /* Cartas inactivas: se oscurecen un poco */
+            filter: grayscale(100%) brightness(0.4) blur(1px);
+            transform: scale(0.85) !important;
+            pointer-events: none;
+            transition: transform 0.8s cubic-bezier(0.19, 1, 0.22, 1), filter 0.6s;
+        }
+
+        .pixel-card.active {
+            cursor: default;
+            /* Sombra más pronunciada al activarse */
+
+        }
+
+        .hand-container:not(.has-active) .card-wrapper:hover .pixel-card {
+            transform: translateY(-20px) scale(1.1); 
+            transition: transform 0.3s ease-out;
+        }
+
+        /* --- PANEL DE INFORMACIÓN (Estilo Github Box) --- */
+        #info-panel {
+            position: fixed;
+            top: 50%;
+            left: 50%; 
+            transform: translate(0, -50%);
+            margin-left: 80px; 
+            
+            opacity: 0;
+            visibility: hidden;
+            
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 450px; 
+            max-width: 90vw;
+            z-index: 2001;
+            
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+
+            /* Estilo CAJA DE GITHUB */
+            background-color: var(--bg-canvas);
+            border: 1px solid var(--border-default);
+            border-radius: 6px;
+            box-shadow: 0 0 0 1px rgba(0,0,0,0.1), 0 8px 24px rgba(0,0,0,0.4);
+        }
+
+        #info-panel.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(0px, -50%);
+        }
+
+        /* Cabecera del panel estilo Github */
+        .panel-header {
+            background-color: var(--bg-canvas-subtle);
+            border-bottom: 1px solid var(--border-default);
+            padding: 16px;
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
+        }
+
+        .panel-body {
+            padding: 24px;
+        }
+
+        #card-title {
+            font-size: 1.5rem; 
+            font-weight: 600;
+            color: var(--fg-default);
+            margin: 0;
+            line-height: 1.25;
+            letter-spacing: -0.5px;
+        }
+
+        /* Badge estilo Github Label */
+        #card-role-badge {
+            display: inline-block;
+            background-color: rgba(56, 139, 253, 0.15); /* Azul transparente estilo GH */
+            color: var(--accent-fg);
+            font-size: 0.75rem;
+            font-weight: 600;
+            line-height: 18px;
+            padding: 0 10px;
+            border: 1px solid rgba(56, 139, 253, 0.4);
+            border-radius: 2em; /* Pill shape */
+            margin-top: 8px;
+        }
+
+        #card-tasks {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            margin-top: 16px;
+        }
+
+        #card-tasks li {
+            color: var(--fg-default);
+            font-size: 1rem;
+            line-height: 1.6;
+            display: flex;
+            align-items: flex-start;
+            padding: 8px 0;
+            border-top: 1px solid var(--border-muted);
+        }
+        
+        #card-tasks li:first-child {
+            border-top: none;
+        }
+
+        /* Icono de lista estilo Markdown/Github */
+        #card-tasks li::before {
+            content: '';
+            display: inline-block;
+            min-width: 16px;
+            height: 16px;
+            margin-right: 12px;
+            margin-top: 4px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='16' height='16' fill='%2358a6ff'%3E%3Cpath d='M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16Zm3.78-9.72a.751.751 0 0 0-.018-1.042.751.751 0 0 0-1.042-.018L6.75 9.19 5.28 7.72a.751.751 0 0 0-1.042.018.751.751 0 0 0-.018 1.042l2 2a.75.75 0 0 0 1.06 0Z'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        /* Se eliminó .panel-footer */
+
+        /* --- ANIMACIÓN FLOTANTE --- */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .card-wrapper:nth-child(1) { animation-delay: 0.0s; }
+        .card-wrapper:nth-child(2) { animation-delay: 0.2s; }
+        .card-wrapper:nth-child(3) { animation-delay: 0.4s; }
+        .card-wrapper:nth-child(4) { animation-delay: 0.6s; }
+        .card-wrapper:nth-child(5) { animation-delay: 0.8s; }
+
+        .card-wrapper:nth-child(1) .pixel-card { transform: rotate(-4deg) translateY(6px); }
+        .card-wrapper:nth-child(2) .pixel-card { transform: rotate(-2deg) translateY(2px); }
+        .card-wrapper:nth-child(3) .pixel-card { transform: rotate(0deg); }
+        .card-wrapper:nth-child(4) .pixel-card { transform: rotate(2deg) translateY(2px); }
+        .card-wrapper:nth-child(5) .pixel-card { transform: rotate(4deg) translateY(6px); }
+
+    </style>
+</head>
+<body>
+
+    <div id="overlay" onclick="resetState()"></div>
+
+    <div id="info-panel">
+        <div class="panel-header">
+            <div id="card-title">Nombre del Usuario</div>
+            <span id="card-role-badge">Rol del Sistema</span>
+        </div>
+        <div class="panel-body">
+            <ul id="card-tasks">
+                </ul>
+            </div>
+    </div>
+
+    <div class="hand-container" id="hand">
+        <div class="card-wrapper"><img src="assets/imagenes/1.png" alt="Card 1" class="pixel-card" onclick="activateCard(this, 0)"></div>
+        <div class="card-wrapper"><img src="assets/imagenes/2.png" alt="Card 2" class="pixel-card" onclick="activateCard(this, 1)"></div>
+        <div class="card-wrapper"><img src="assets/imagenes/3.png" alt="Card 3" class="pixel-card" onclick="activateCard(this, 2)"></div>
+        <div class="card-wrapper"><img src="assets/imagenes/4.png" alt="Card 4" class="pixel-card" onclick="activateCard(this, 3)"></div>
+        <div class="card-wrapper"><img src="assets/imagenes/5.png" alt="Card 5" class="pixel-card" onclick="activateCard(this, 4)"></div>
+    </div>
+
+    <script>
+        // Se eliminaron los 'hash' de los datos ya que no se usan
+        const cardsData = [
+            { name: "MAURO LOMELI MUÑOZ", role: "ROL Persona", task: "Hizo blah blah blah." },
+            { name: "JULIO DAVILA ACEVEDO", role: "ROL Persona", task: "Hizo blah blah blah." },
+            { name: "JUAN E. SUAREZ GARCIA", role: "ROL Persona", task: "Hizo blah blah blah." },
+            { name: "LUIS F. SILVA BRIONES", role: "ROL Persona", task: "Hizo blah blah blah." },
+            { name: "ERICK L. CHAVEZ PONCE", role: "ROL Persona", task: "Hizo blah blah blah." }
+        ];
+
+        let activeCardIntance = null;
+
+        function activateCard(cardElement, index) {
+            if (activeCardIntance) return;
+
+            const handContainer = document.getElementById('hand');
+            const overlay = document.getElementById('overlay');
+            const infoPanel = document.getElementById('info-panel');
+            const parentWrapper = cardElement.parentElement;
+
+            activeCardIntance = cardElement;
+            
+            parentWrapper.classList.add('paused');
+            
+            requestAnimationFrame(() => {
+                handContainer.classList.add('has-active');
+                overlay.classList.add('active');
+                parentWrapper.classList.add('active-wrapper');
+
+                const rect = cardElement.getBoundingClientRect();
+                const centerX = window.innerWidth / 2;
+                const centerY = window.innerHeight / 2;
+                
+                // Ajuste de posición: movemos la carta un poco a la izquierda para dejar espacio al panel
+                const targetX = (centerX - 140) - (rect.left + rect.width / 2);
+                const targetY = centerY - (rect.top + rect.height / 2);
+
+                cardElement.style.transform = `translate(${targetX}px, ${targetY}px) scale(2.2) rotate(0deg)`;
+                cardElement.classList.add('active');
+
+                setTimeout(() => {
+                    const data = cardsData[index];
+                    document.getElementById('card-title').innerText = data.name;
+                    document.getElementById('card-role-badge').innerText = data.role;
+                    document.getElementById('card-tasks').innerHTML = `<li>${data.task}</li>`;
+                    
+                    infoPanel.classList.add('visible');
+                }, 100);
+            });
+        }
+
+        function resetState() {
+            if (!activeCardIntance) return;
+
+            const handContainer = document.getElementById('hand');
+            const overlay = document.getElementById('overlay');
+            const infoPanel = document.getElementById('info-panel');
+            const parentWrapper = activeCardIntance.parentElement;
+
+            overlay.classList.remove('active');
+            infoPanel.classList.remove('visible');
+            handContainer.classList.remove('has-active');
+
+            activeCardIntance.style.transform = ''; 
+            activeCardIntance.classList.remove('active');
+            
+            setTimeout(() => {
+                parentWrapper.classList.remove('active-wrapper');
+                parentWrapper.classList.remove('paused');
+                activeCardIntance = null;
+            }, 600);
+        }
+    </script>
+</body>
+
+</html>
