@@ -4,9 +4,14 @@ function ejecutarBFS() {
         return;
     }
 
+    if (window.nodoSeleccionado === null || window.nodoSeleccionado === undefined) {
+        alert("Por favor, selecciona un nodo de inicio haciendo click sobre él en el grafo.");
+        return;
+    }
+
     const grafo = window.grafo;
     const numVertices = grafo.length;  
-    const nodoInicio = 0; 
+    const nodoInicio = window.nodoSeleccionado;
 
     let visitados = new Array(numVertices).fill(false);
     let cola = []; 
@@ -31,7 +36,7 @@ function ejecutarBFS() {
     const tiempoDiv = document.getElementById("tiempo-analisis");
     const espacioDiv = document.getElementById("espacio-analisis");
 
-    resultadoDiv.textContent = "Recorrido BFS (iniciando en 0): " + recorrido.join(" -> ");
+    resultadoDiv.textContent = `Recorrido BFS (iniciando en Nodo ${nodoInicio}): ` + recorrido.join(" -> ");
     
     tiempoDiv.textContent = "O(V²)";
     espacioDiv.textContent = "O(V)";

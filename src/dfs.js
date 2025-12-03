@@ -4,9 +4,14 @@ function ejecutarDFS() {
         return;
     }
 
+    if (window.nodoSeleccionado === null || window.nodoSeleccionado === undefined) {
+        alert("Por favor, selecciona un nodo de inicio haciendo click sobre él en el grafo.");
+        return;
+    }
+
     const grafo = window.grafo;
     const numVertices = grafo.length;
-    const nodoInicio = 0;
+    const nodoInicio = window.nodoSeleccionado;
 
     let visitados = new Array(numVertices).fill(false);
     let pila = [];
@@ -32,7 +37,7 @@ function ejecutarDFS() {
     const tiempoDiv = document.getElementById("tiempo-analisis");
     const espacioDiv = document.getElementById("espacio-analisis");
 
-    resultadoDiv.textContent = "Recorrido DFS (desde 0): " + recorrido.join(" -> ");
+    resultadoDiv.textContent = `Recorrido DFS (iniciando en Nodo ${nodoInicio}): ` + recorrido.join(" -> ");
     
     tiempoDiv.textContent = "O(V²)"; 
     espacioDiv.textContent = "O(V)";

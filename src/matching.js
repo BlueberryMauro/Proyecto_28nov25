@@ -34,7 +34,6 @@ window.ejecutarMatching = function() {
     if (lblTiempo) lblTiempo.innerText = "Maximal: O(E) | Máximo: O(V*E)";
     if (lblEspacio) lblEspacio.innerText = "O(V)";
 
-    // Limpiar el segundo panel por si acaso
     const outputSecundario = document.getElementById('resultado-matching');
     if(outputSecundario) outputSecundario.textContent = "";
 };

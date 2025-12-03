@@ -3,14 +3,17 @@ function ejecutarDijkstra() {
         alert("Primero carga una matriz en el botón 'Cargar'.");
         return;
     }
+    if (window.nodoSeleccionado === null || window.nodoSeleccionado === undefined) {
+        alert("Por favor, selecciona un nodo de origen haciendo click sobre él.");
+        return;
+    }
 
     const grafo = window.grafo;
     const numVertices = grafo.length;
-    const nodoInicio = 0;
+    const nodoInicio = window.nodoSeleccionado;
 
     let distancias = new Array(numVertices).fill(Infinity);
     let visitados = new Array(numVertices).fill(false);
-
     let previo = new Array(numVertices).fill(null); 
 
     distancias[nodoInicio] = 0;
@@ -72,6 +75,5 @@ function ejecutarDijkstra() {
     tiempoDiv.textContent = "O(V²)"; 
     espacioDiv.textContent = "O(V)";
 
-    console.log("Dijkstra ejecutado. Distancias:", distancias);
-    console.log("Arreglo de previos:", previo);
+    console.log("Dijkstra ejecutado desde", nodoInicio);
 }

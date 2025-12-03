@@ -3,10 +3,14 @@ function ejecutarBellman() {
         alert("Primero carga una matriz en el botón 'Cargar'.");
         return;
     }
+    if (window.nodoSeleccionado === null || window.nodoSeleccionado === undefined) {
+        alert("Por favor, selecciona un nodo de origen haciendo click sobre él.");
+        return;
+    }
 
     const grafo = window.grafo;
     const numVertices = grafo.length;
-    const nodoInicio = 0;
+    const nodoInicio = window.nodoSeleccionado;
 
     let distancias = new Array(numVertices).fill(Infinity);
     let previo = new Array(numVertices).fill(null);
@@ -32,7 +36,7 @@ function ejecutarBellman() {
             if (grafo[u][v] !== 0) {
                 const peso = grafo[u][v];
                 if (distancias[u] !== Infinity && distancias[u] + peso < distancias[v]) {
-                    alert("El grafo contiene un ciclo de peso negativo.");
+                    alert("El grafo contiene un ciclo de peso negativo accesible desde el nodo seleccionado.");
                     return;
                 }
             }
