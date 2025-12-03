@@ -28,6 +28,42 @@ const toggleExamplesBtn = document.getElementById("toggle-examples-btn")
 const closeExamplesBtn = document.getElementById("close-examples-btn")
 const examplesDrawer = document.getElementById("examples-drawer")
 const examplesGrid = document.getElementById("examples-grid")
+const btnGuardar = document.getElementById("btn-guardar-archivo")
+
+btnGuardar.addEventListener('click', () => {
+    try {
+        reproducirSonido(soundClick);
+        
+        const txt = txtMatriz.value.trim();
+        if (!txt) {
+            alert("No hay grafo para guardar. Primero carga o crea un grafo.");
+            return;
+        }
+        
+        let contenido = txt;
+        
+        const metadata = `// Grafo guardado el ${new Date().toLocaleString()}\n// Dirigido: ${window.esDirigido ? "Sí" : "No"}, Ponderado: ${window.esPonderado ? "Sí" : "No"}\n\n`;
+        contenido = metadata + contenido;
+        
+        const blob = new Blob([contenido], { type: 'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `grafo_${new Date().toISOString().slice(0, 10)}.txt`;
+        document.body.appendChild(a);
+        a.click();
+        
+        setTimeout(() => {
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }, 100);
+        
+    } catch (error) {
+        console.error('Error al guardar el archivo:', error);
+        alert('Error al guardar el archivo: ' + error.message);
+    }
+});
 
 btnImportar.addEventListener('click', () =>{
     reproducirSonido(soundClick);
