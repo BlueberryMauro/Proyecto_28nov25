@@ -23,6 +23,7 @@ const closeExamplesBtn = document.getElementById("close-examples-btn")
 const examplesDrawer = document.getElementById("examples-drawer")
 const examplesGrid = document.getElementById("examples-grid")
 
+
 setTimeout(() => {
     if (window.LocomotiveScroll) {
         const scroll = new LocomotiveScroll({
@@ -102,7 +103,7 @@ btnCargar.addEventListener('click', () => {
     
     window.coloresBipartito = null
     window.mstAristas = null
-    
+
     window.grafo = matriz
     window.esDirigido = chkDirigido.checked
     window.esPonderado = chkPonderado.checked
