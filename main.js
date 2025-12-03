@@ -1,17 +1,13 @@
 console.log("Main.js cargado correctamente")
 
 window.coloresBipartito = null
-<<<<<<< HEAD
 window.nodoInicial = null // Variable para guardar el nodo seleccionado
-window.mstAristas = null
-=======
 window.mstAristas = null
 window.grafo = null
 window.esDirigido = false
 window.esPonderado = false
 
 window.dibujarGrafo = dibujarGrafo; 
->>>>>>> efb851e42b71baa5c9bb74ffaf5dd1edb2f307aa
 
 const btnCargar = document.getElementById("btn-cargar")
 const btnEjecutar = document.getElementById("btn-ejecutar")
@@ -33,10 +29,24 @@ const closeExamplesBtn = document.getElementById("close-examples-btn")
 const examplesDrawer = document.getElementById("examples-drawer")
 const examplesGrid = document.getElementById("examples-grid")
 
-<<<<<<< HEAD
-// --- SCROLL SUAVE ---
-=======
->>>>>>> efb851e42b71baa5c9bb74ffaf5dd1edb2f307aa
+btnImportar.addEventListener('click', () =>{
+    reproducirSonido(soundClick);
+    inputArchivo.click();
+});
+
+inputArchivo.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if(!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(event){
+        const contenido = event.target.result;
+        txtMatriz.value = contenido;
+        btnCargar.click();
+    };
+    reader.readAsText(file);
+});
+
 setTimeout(() => {
     if (window.LocomotiveScroll) {
         const scroll = new LocomotiveScroll({
@@ -113,13 +123,10 @@ btnCargar.addEventListener('click', () => {
     const txt = txtMatriz.value.trim()
     if (!txt) { alert("Inserta una matriz primero"); return }
     const matriz = txt.split("\n").map(r => r.trim().split(/\s+/).map(Number))
-    
+
     window.coloresBipartito = null
-<<<<<<< HEAD
     window.nodoInicial = null // Reseteamos la selección al cargar nuevo grafo
-=======
     window.nodoSeleccionado = null
->>>>>>> efb851e42b71baa5c9bb74ffaf5dd1edb2f307aa
     window.mstAristas = null
 
     window.grafo = matriz
@@ -185,10 +192,6 @@ function dibujarGrafo(matriz, dirigido, ponderado, arrayColores = null, mstArist
         }
     }
 
-<<<<<<< HEAD
-    // Dibujar Nodos
-=======
->>>>>>> efb851e42b71baa5c9bb74ffaf5dd1edb2f307aa
     if (mstAristas && mstAristas.length > 0 && ponderado) {
         ctx.lineWidth = 4.5
         ctx.strokeStyle = "#48b6a3"
