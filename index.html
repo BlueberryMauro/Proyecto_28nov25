@@ -6,6 +6,162 @@
     <title>Proyecto Grafos</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.css">
     <link rel="stylesheet" href="style.css">
+
+    <style>        
+        .credits-viewer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 50px; 
+            padding: 40px 0;
+            width: 100%;
+            position: relative;
+            perspective: 1000px;
+            margin-top: 20px;
+        }
+
+        .hand-container {
+            display: flex;
+            gap: 15px;
+            perspective: 1000px;
+            padding: 50px;
+            position: relative;
+            z-index: 60;
+        }
+
+        .card-wrapper {
+            position: relative;
+            z-index: 1;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .pixel-card {
+            width: 120px;
+            height: auto;
+            image-rendering: pixelated; 
+            backface-visibility: hidden;
+            transform: translateZ(0);
+            will-change: transform;
+            transition: transform 0.3s ease-out;
+            transform-origin: center center;
+            cursor: help; 
+            -webkit-user-drag: none;
+            user-select: none;
+        }
+
+        .card-wrapper:hover .pixel-card {
+            transform: translateY(-20px) scale(1.1); 
+            z-index: 100;
+        }
+
+        #tooltip {
+            position: fixed;
+            pointer-events: none;
+            z-index: 99999;
+            
+            background-color: var(--bg-canvas, #ffffff);
+            border: 1px solid var(--border-default, #ccc);
+            border-radius: 6px;
+            
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1);
+            
+            min-width: 250px;
+            max-width: 320px;
+            padding: 0;
+            
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.15s ease, transform 0.15s ease;
+        }
+
+        #tooltip.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .tooltip-header {
+            background-color: var(--bg-canvas-subtle, #f6f8fa);
+            border-bottom: 1px solid var(--border-default, #d0d7de);
+            padding: 12px;
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
+        }
+
+        .tooltip-body {
+            padding: 16px;
+        }
+
+        .tooltip-title {
+            font-size: 1.1rem; 
+            font-weight: 600;
+            color: var(--fg-default, #24292f);
+            margin: 0;
+            line-height: 1.25;
+        }
+
+        .tooltip-badge {
+            display: inline-block;
+            background-color: rgba(56, 139, 253, 0.15);
+            color: var(--accent-fg, #0969da);
+            font-size: 0.7rem;
+            font-weight: 600;
+            line-height: 1.2;
+            padding: 2px 8px;
+            border: 1px solid rgba(56, 139, 253, 0.4);
+            border-radius: 2em;
+            margin-top: 6px;
+        }
+
+        .tooltip-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .tooltip-list li {
+            color: var(--fg-default, #24292f);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .tooltip-list li::before {
+            content: '';
+            display: inline-block;
+            min-width: 14px;
+            height: 14px;
+            margin-right: 8px;
+            margin-top: 3px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' width='16' height='16' fill='%2358a6ff'%3E%3Cpath d='M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16Zm3.78-9.72a.751.751 0 0 0-.018-1.042.751.751 0 0 0-1.042-.018L6.75 9.19 5.28 7.72a.751.751 0 0 0-1.042.018.751.751 0 0 0-.018 1.042l2 2a.75.75 0 0 0 1.06 0Z'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+        }
+
+        /* --- ANIMACIÓN FLOTANTE --- */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .card-wrapper:nth-child(1) { animation-delay: 0.0s; }
+        .card-wrapper:nth-child(2) { animation-delay: 0.2s; }
+        .card-wrapper:nth-child(3) { animation-delay: 0.4s; }
+        .card-wrapper:nth-child(4) { animation-delay: 0.6s; }
+        .card-wrapper:nth-child(5) { animation-delay: 0.8s; }
+
+        .card-wrapper:nth-child(1) .pixel-card { transform: rotate(-4deg) translateY(6px); }
+        .card-wrapper:nth-child(2) .pixel-card { transform: rotate(-2deg) translateY(2px); }
+        .card-wrapper:nth-child(3) .pixel-card { transform: rotate(0deg); }
+        .card-wrapper:nth-child(4) .pixel-card { transform: rotate(2deg) translateY(2px); }
+        .card-wrapper:nth-child(5) .pixel-card { transform: rotate(4deg) translateY(6px); }
+        
+        /* Reset de transformaciones al hacer hover */
+        .card-wrapper:hover .pixel-card {
+            transform: rotate(0deg) translateY(-20px) scale(1.1) !important;
+        }
+    </style>
 </head>
 <body>
 
@@ -122,8 +278,16 @@
                 </div>
             </section>
 
-            <div style="height: 500px;"></div>
-        </main>
+            <div class="credits-viewer" data-scroll>
+                <div class="hand-container" id="hand">
+                    <div class="card-wrapper"><img src="assets/imagenes/1.png" alt="Card 1" class="pixel-card" onmouseenter="showTooltip(event, 0)" onmousemove="moveTooltip(event)" onmouseleave="hideTooltip()"></div>
+                    <div class="card-wrapper"><img src="assets/imagenes/2.png" alt="Card 2" class="pixel-card" onmouseenter="showTooltip(event, 1)" onmousemove="moveTooltip(event)" onmouseleave="hideTooltip()"></div>
+                    <div class="card-wrapper"><img src="assets/imagenes/3.png" alt="Card 3" class="pixel-card" onmouseenter="showTooltip(event, 2)" onmousemove="moveTooltip(event)" onmouseleave="hideTooltip()"></div>
+                    <div class="card-wrapper"><img src="assets/imagenes/4.png" alt="Card 4" class="pixel-card" onmouseenter="showTooltip(event, 3)" onmousemove="moveTooltip(event)" onmouseleave="hideTooltip()"></div>
+                    <div class="card-wrapper"><img src="assets/imagenes/5.png" alt="Card 5" class="pixel-card" onmouseenter="showTooltip(event, 4)" onmousemove="moveTooltip(event)" onmouseleave="hideTooltip()"></div>
+                </div>
+            </div>
+            </main>
     </div>
 
     <div class="console-overlay" id="console-overlay"></div>
@@ -169,6 +333,77 @@
     <script src="src/arbol.js"></script>
     <script src="src/infoHover.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
+
+    <script>
+        const cardsData = [
+            { name: "MAURO LOMELI MUÑOZ", role: "ROL Persona", task: "Hizo blah blah blah." },
+            { name: "JULIO DAVILA ACEVEDO", role: "ROL Persona", task: "Hizo blah blah blah." },
+            { name: "JUAN E. SUAREZ GARCIA", role: "ROL Persona", task: "Hizo blah blah blah." },
+            { name: "LUIS F. SILVA BRIONES", role: "ROL Persona", task: "Hizo blah blah blah." },
+            { name: "ERICK L. CHAVEZ PONCE", role: "ROL Persona", task: "Hizo blah blah blah." }
+        ];
+
+        const grabSound = document.getElementById('sndGrab');
+        function getOrCreateTooltip() {
+            let el = document.getElementById('tooltip');
+            
+            if (!el) {
+                el = document.createElement('div');
+                el.id = 'tooltip';
+                
+                // Creamos la estructura interna
+                el.innerHTML = `
+                    <div class="tooltip-header">
+                        <div class="tooltip-title" id="tt-title"></div>
+                        <span class="tooltip-badge" id="tt-role"></span>
+                    </div>
+                    <div class="tooltip-body">
+                        <ul class="tooltip-list" id="tt-tasks"></ul>
+                    </div>
+                `;
+                
+                document.body.appendChild(el);
+            }
+            return el;
+        }
+
+        function showTooltip(e, index) {
+            const data = cardsData[index];
+            const tooltip = getOrCreateTooltip();
+
+            // Llenar datos
+            tooltip.querySelector('#tt-title').innerText = data.name;
+            tooltip.querySelector('#tt-role').innerText = data.role;
+            tooltip.querySelector('#tt-tasks').innerHTML = `<li>${data.task}</li>`;
+
+            if(grabSound) {
+                grabSound.currentTime = 0;
+                grabSound.volume = 0.3;
+                grabSound.play().catch(() => {});
+            }
+
+            // Mostrar
+            tooltip.classList.add('visible');
+            moveTooltip(e); 
+        }
+
+        function moveTooltip(e) {
+            const tooltip = document.getElementById('tooltip');
+            if(tooltip) {
+                const x = e.clientX + 20;
+                const y = e.clientY + 10;
+                tooltip.style.left = `${x}px`;
+                tooltip.style.top = `${y}px`;
+            }
+        }
+
+        function hideTooltip() {
+            const tooltip = document.getElementById('tooltip');
+            if(tooltip) {
+                tooltip.classList.remove('visible');
+            }
+        }
+    </script>
     
 </body>
 </html>

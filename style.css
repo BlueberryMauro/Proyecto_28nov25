@@ -377,127 +377,69 @@ canvas { background-color: #0d1117 !important; max-width: 100%; height: auto; }
 /* ----------------------------- */
 
 #btn-importar-archivo, #btn-guardar-archivo {
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-family: var(--font-stack);
     position: relative;
-    overflow: hidden;
     font-weight: 500;
-    border-radius: 8px;
-    padding: 12px 16px;
-    height: 46px;
+    border-radius: 6px;
+    padding: 5px 16px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
     cursor: pointer;
-    border-width: 2px !important;
-    background: transparent !important;
-}
-
-#btn-importar-archivo::before, #btn-guardar-archivo::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border-radius: 6px;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: -1;
-}
-
-#btn-importar-archivo::before {
-    background: linear-gradient(135deg, rgba(88, 166, 255, 0.1) 0%, rgba(88, 166, 255, 0.05) 100%);
-}
-
-#btn-guardar-archivo::before {
-    background: linear-gradient(135deg, rgba(63, 185, 80, 0.1) 0%, rgba(63, 185, 80, 0.05) 100%);
-}
-
-#btn-importar-archivo {
-    border: 2px dashed #58a6ff !important;
-    color: #58a6ff;
+    font-size: 13px;
+    line-height: 20px;
+    transition: 0.2s ease;
+    background-color: var(--bg-canvas-subtle);
+    border: 1px solid var(--btn-border) !important;
+    color: var(--fg-default);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    user-select: none;
+    appearance: none;
 }
 
 #btn-importar-archivo:hover {
-    transform: scale(1.03) translateY(-2px);
-    border-color: #79c0ff !important;
-    color: #79c0ff;
-    box-shadow: 0 8px 20px rgba(88, 166, 255, 0.2);
+    background-color: #1f2428;
+    border-color: #58a6ff !important;
+    color: #58a6ff;
 }
 
-#btn-importar-archivo:hover::before {
-    opacity: 1;
-}
-
-#btn-guardar-archivo {
-    border: 2px dashed #2ea043 !important;
-    color: #2ea043;
+#btn-importar-archivo:active {
+    background-color: rgba(88, 166, 255, 0.1); 
+    border-color: #58a6ff !important;
+    transition: none;
 }
 
 #btn-guardar-archivo:hover {
-    transform: scale(1.03) translateY(-2px);
+    background-color: #1f2428;
     border-color: #3fb950 !important;
     color: #3fb950;
-    box-shadow: 0 8px 20px rgba(46, 160, 67, 0.2);
 }
 
-#btn-guardar-archivo:hover::before {
-    opacity: 1;
-}
-
-@keyframes border-pulse {
-    0% { border-style: dashed; }
-    50% { border-style: solid; }
-    100% { border-style: dashed; }
-}
-
-#btn-importar-archivo:hover, #btn-guardar-archivo:hover {
-    animation: border-pulse 1.5s infinite;
-}
-
-#btn-importar-archivo:active::after, #btn-guardar-archivo:active::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 5px;
-    height: 5px;
-    background: rgba(255, 255, 255, 0.5);
-    opacity: 0.5;
-    border-radius: 100%;
-    transform: scale(1, 1) translate(-50%);
-    transform-origin: 50% 50%;
-    animation: ripple 0.6s ease-out;
-}
-
-@keyframes ripple {
-    0% { transform: scale(0, 0); opacity: 0.5; }
-    100% { transform: scale(30, 30); opacity: 0; }
+#btn-guardar-archivo:active {
+    background-color: rgba(46, 160, 67, 0.1);
+    border-color: #3fb950 !important;
+    transition: none;
 }
 
 #btn-importar-archivo svg, #btn-guardar-archivo svg {
-    transition: transform 0.3s ease;
-    flex-shrink: 0;
+    fill: currentColor;
+    transition: transform 0.2s ease;
+    opacity: 0.7;
+    width: 16px; 
+    height: 16px;
 }
 
-#btn-importar-archivo:hover svg {
-    transform: translateY(-2px) rotate(-5deg);
-}
-
-#btn-guardar-archivo:hover svg {
-    transform: translateY(-2px) rotate(5deg);
+#btn-importar-archivo:hover svg, #btn-guardar-archivo:hover svg {
+    opacity: 1;
+    transform: translateY(-1px);
 }
 
 #btn-importar-archivo span, #btn-guardar-archivo span {
     display: inline-block;
-    transition: transform 0.3s ease, letter-spacing 0.3s ease;
     white-space: nowrap;
-}
-
-#btn-importar-archivo:hover span, #btn-guardar-archivo:hover span {
-    transform: translateX(2px);
-    letter-spacing: 0.3px;
 }
 
 div[style*="display: flex; gap: 10px;"] {
@@ -506,5 +448,5 @@ div[style*="display: flex; gap: 10px;"] {
 
 #btn-importar-archivo, #btn-guardar-archivo {
     flex: 1;
-    min-width: 0; /* Para que funcionen bien en contenedores flex */
+    min-width: 0;
 }

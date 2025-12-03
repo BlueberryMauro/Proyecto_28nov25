@@ -77,10 +77,39 @@ inputArchivo.addEventListener('change', (e) => {
     const reader = new FileReader();
     reader.onload = function(event){
         const contenido = event.target.result;
-        txtMatriz.value = contenido;
+        const lineas = contenido.split('\n');
+        
+        let matrizLimpia = "";
+        let archivoEsDirigido = false;
+        let archivoEsPonderado = false;
+
+        lineas.forEach(linea => {
+            const l = linea.trim();
+            
+            if (l.startsWith("//")) {
+                const lowerLine = l.toLowerCase();
+                if (lowerLine.includes("dirigido:") && lowerLine.includes("ponderado:")) {
+                    if (/dirigido:\s*s[íi]/i.test(lowerLine)) {
+                        archivoEsDirigido = true;
+                    }
+                    if (/ponderado:\s*s[íi]/i.test(lowerLine)) {
+                        archivoEsPonderado = true;
+                    }
+                }
+            } else if (l !== "") {
+                matrizLimpia += linea + "\n";
+            }
+        });
+
+        chkDirigido.checked = archivoEsDirigido;
+        chkPonderado.checked = archivoEsPonderado;
+
+        txtMatriz.value = matrizLimpia.trim();
         btnCargar.click();
     };
     reader.readAsText(file);
+
+    inputArchivo.value = ""; 
 });
 
 setTimeout(() => {
@@ -158,16 +187,21 @@ btnCargar.addEventListener('click', () => {
     reproducirSonido(soundClick);
     const txt = txtMatriz.value.trim()
     if (!txt) { alert("Inserta una matriz primero"); return }
-    const matriz = txt.split("\n").map(r => r.trim().split(/\s+/).map(Number))
+
+    const matriz = txt.split("\n")
+        .map(r => r.trim())
+        .filter(r => r !== "" && !r.startsWith("//"))
+        .map(r => r.split(/\s+/).map(Number))
 
     window.coloresBipartito = null
-    window.nodoInicial = null // Reseteamos la selección al cargar nuevo grafo
+    window.nodoInicial = null 
     window.nodoSeleccionado = null
     window.mstAristas = null
 
     window.grafo = matriz
     window.esDirigido = chkDirigido.checked
     window.esPonderado = chkPonderado.checked
+    
     salida.textContent = `Grafo cargado (Dirigido: ${window.esDirigido}, Ponderado: ${window.esPonderado}):\n` + JSON.stringify(matriz, null, 2)
     
     dibujarGrafo(matriz, window.esDirigido, window.esPonderado)
