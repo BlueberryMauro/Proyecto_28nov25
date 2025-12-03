@@ -1,12 +1,18 @@
-// ---- CURSOR INFO ---- ///
 const tooltip = document.createElement('div');
 tooltip.className = 'graph-tooltip';
 document.body.appendChild(tooltip);
 
 const canvasEl = document.getElementById("lienzo");
 
+window.nodoSeleccionado = null; 
+
 function getNodeInfo(nodeIndex, matriz, esDirigido, esPonderado) {
-    let info = `<strong>Nodo ${nodeIndex}</strong><br>`;
+    let info = `<strong>Nodo ${nodeIndex}</strong>`;
+    if (window.nodoSeleccionado === nodeIndex) {
+        info += ` <span style="color: yellow; font-weight:bold;">(SELECCIONADO)</span>`;
+    }
+    info += `<br>`;
+
     const n = matriz.length;
     
     if (esDirigido) {
@@ -47,6 +53,29 @@ function getNodeInfo(nodeIndex, matriz, esDirigido, esPonderado) {
     return info;
 }
 
+canvasEl.addEventListener('mousedown', (e) => {
+    if (!window.nodos) return;
+
+    const rect = canvasEl.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const my = e.clientY - rect.top;
+
+    let clickEnNodo = false;
+
+    for (let n of window.nodos) {
+        let dist = Math.sqrt((mx - n.x) ** 2 + (my - n.y) ** 2);
+        if (dist <= 20) {
+            window.nodoSeleccionado = n.id;
+            clickEnNodo = true;
+            
+            console.log("Nodo seleccionado:", n.id);
+            if(typeof window.dibujarGrafo === 'function') window.dibujarGrafo(); 
+            break;
+        }
+    }
+
+});
+
 canvasEl.addEventListener('mousemove', (e) => {
     if (!window.nodos || !window.grafo) return;
 
@@ -72,4 +101,3 @@ canvasEl.addEventListener('mousemove', (e) => {
         tooltip.style.display = 'none';
     }
 });
-// ----------------------------- //

@@ -1,11 +1,13 @@
 console.log("Main.js cargado correctamente")
 
-// --- VARIABLES GLOBALES ---
 window.coloresBipartito = null
-window.nodoInicial = null // Variable para guardar el nodo seleccionado (HEAD)
-window.mstAristas = null  // Variable para guardar aristas MST (fernando)
+window.mstAristas = null
+window.grafo = null
+window.esDirigido = false
+window.esPonderado = false
 
-// --- REFERENCIAS DOM ---
+window.dibujarGrafo = dibujarGrafo; 
+
 const btnCargar = document.getElementById("btn-cargar")
 const btnEjecutar = document.getElementById("btn-ejecutar")
 const txtMatriz = document.getElementById("matriz_input")
@@ -26,7 +28,6 @@ const closeExamplesBtn = document.getElementById("close-examples-btn")
 const examplesDrawer = document.getElementById("examples-drawer")
 const examplesGrid = document.getElementById("examples-grid")
 
-// --- SCROLL SUAVE ---
 setTimeout(() => {
     if (window.LocomotiveScroll) {
         const scroll = new LocomotiveScroll({
@@ -38,7 +39,6 @@ setTimeout(() => {
     }
 }, 100)
 
-// --- INTERFAZ / DRAWER ---
 function openConsole() { 
     drawer.classList.add('is-open'); 
     overlay.classList.add('is-active');
@@ -71,12 +71,10 @@ overlay.addEventListener('click', () => { closeConsole(); closeExamples(); })
 toggleExamplesBtn.addEventListener('click', openExamples)
 closeExamplesBtn.addEventListener('click', closeExamples)
 
-// --- VARIABLES DE FISICA ---
 let nodos = []
 let dragging = null
 let mouse = { x: 0, y: 0 }
 
-// --- AUDIO ---
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)()
 const osc = audioCtx.createOscillator()
 osc.type = "sine"
@@ -101,17 +99,15 @@ function reproducirSonido(audio) {
     }
 }
 
-// --- CARGAR MATRIZ ---
 btnCargar.addEventListener('click', () => {
     reproducirSonido(soundClick);
     const txt = txtMatriz.value.trim()
     if (!txt) { alert("Inserta una matriz primero"); return }
     const matriz = txt.split("\n").map(r => r.trim().split(/\s+/).map(Number))
     
-    // Reseteamos estados (Fusionado)
     window.coloresBipartito = null
-    window.nodoInicial = null // Reseteamos la selección
-    window.mstAristas = null  // Reseteamos MST
+    window.nodoSeleccionado = null
+    window.mstAristas = null
 
     window.grafo = matriz
     window.esDirigido = chkDirigido.checked
@@ -121,10 +117,11 @@ btnCargar.addEventListener('click', () => {
     dibujarGrafo(matriz, window.esDirigido, window.esPonderado)
 })
 
-// --- DIBUJAR ---
-// Se mantiene la firma extendida para soportar MST y colores
 function dibujarGrafo(matriz, dirigido, ponderado, arrayColores = null, mstAristas = null) {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
+    matriz = matriz || window.grafo;
+    if(!matriz) return;
+
     const n = matriz.length
     if (n === 0) return
 
@@ -140,13 +137,11 @@ function dibujarGrafo(matriz, dirigido, ponderado, arrayColores = null, mstArist
         }
     }
     
-    // Guardamos referencia global (HEAD)
     window.nodos = nodos; 
 
     ctx.lineWidth = 1.8
     ctx.strokeStyle = "rgba(139,148,158,0.4)"
 
-    // Dibujar aristas normales
     for (let i = 0; i < n; i++) {
         for (let j = 0; j < n; j++) {
             if (matriz[i][j] !== 0) {
@@ -177,7 +172,6 @@ function dibujarGrafo(matriz, dirigido, ponderado, arrayColores = null, mstArist
         }
     }
 
-    // Dibujar MST Aristas (fernando)
     if (mstAristas && mstAristas.length > 0 && ponderado) {
         ctx.lineWidth = 4.5
         ctx.strokeStyle = "#48b6a3"
@@ -209,31 +203,25 @@ function dibujarGrafo(matriz, dirigido, ponderado, arrayColores = null, mstArist
         }
     }
 
-    // Dibujar Nodos
     for (let n1 of nodos) {
         ctx.beginPath()
         ctx.arc(n1.x, n1.y, 20, 0, 2 * Math.PI)
         
-        // Lógica de colores (Bipartito > Seleccionado > Normal)
         if (arrayColores && arrayColores[n1.id] !== -1 && arrayColores[n1.id] !== undefined) {
-            // Colores Bipartito
-            if (arrayColores[n1.id] === 0) ctx.fillStyle = "#f85149" // Rojo
-            else ctx.fillStyle = "#48b6a3" // Verde azulado
+            if (arrayColores[n1.id] === 0) ctx.fillStyle = "#f85149" 
+            else ctx.fillStyle = "#48b6a3" 
         } 
-        else if (n1.id === window.nodoInicial) {
-            // Nodo seleccionado por el usuario (HEAD)
+        else if (n1.id === window.nodoSeleccionado) {
             ctx.fillStyle = "#d29922" 
         } 
         else {
-            // Nodo normal (Gris oscuro)
             ctx.fillStyle = "#21262d"
         }
 
         ctx.fill()
 
-        // Borde del nodo
-        if (n1.id === window.nodoInicial) {
-            ctx.strokeStyle = "#f0f6fc" // Borde blanco brillante para selección
+        if (n1.id === window.nodoSeleccionado) {
+            ctx.strokeStyle = "#f0f6fc" 
             ctx.lineWidth = 3
         } else {
             ctx.strokeStyle = "#30363d"
@@ -242,7 +230,6 @@ function dibujarGrafo(matriz, dirigido, ponderado, arrayColores = null, mstArist
         
         ctx.stroke()
         
-        // Texto ID
         ctx.fillStyle = "#ffffffff"
         ctx.font = "bold 16px Arial"
         ctx.textAlign = "center"
@@ -271,28 +258,15 @@ function dibujarFlecha(ctx, fx, fy, tx, ty, r) {
     ctx.fill()
 }
 
-// --- INTERACCIÓN MOUSE ---
 canvas.addEventListener("mousedown", e => {
     audioCtx.resume()
     const rect = canvas.getBoundingClientRect();
     let mx = e.clientX - rect.left;
     let my = e.clientY - rect.top;
 
-    let clickEnNodo = false;
-
     for (let n1 of nodos) {
         if (Math.hypot(mx - n1.x, my - n1.y) <= 20) {
             dragging = n1
-            
-            // Lógica de Selección (HEAD)
-            window.nodoInicial = n1.id
-            clickEnNodo = true;
-            
-            // Feedback en consola
-            const msg = `> Nodo ${n1.id} seleccionado como inicial.`;
-            // Agregamos al principio sin borrar todo el historial
-            salida.textContent = msg + "\n" + salida.textContent;
-            
             reproducirSonido(soundClick);
             break
         }
@@ -309,7 +283,6 @@ document.addEventListener("mousemove", e => {
     mouse.y = e.clientY - rect.top;
 });
 
-// --- BUCLE DE ANIMACIÓN ---
 function loop() {
     if (dragging) {
         let targetX = Math.max(20, Math.min(canvas.width - 20, mouse.x));
@@ -321,7 +294,6 @@ function loop() {
         dragging.vy = dragging.y - dragging.ly;
     }
 
-    // Colisiones entre nodos
     for (let i = 0; i < nodos.length; i++) {
         for (let j = i + 1; j < nodos.length; j++) {
             let n1 = nodos[i];
@@ -358,7 +330,6 @@ function loop() {
         }
     }
 
-    // Inercia y bordes
     for (let n1 of nodos) {
         if (n1 !== dragging) {
             n1.x += n1.vx
@@ -376,7 +347,6 @@ function loop() {
         n1.ly = n1.y
     }
 
-    // Audio dinámico
     const vel = dragging ? Math.hypot(dragging.vx, dragging.vy) : 0
     let vol = Math.min(vel * 0.06, 1) * 0.08
     gain.gain.setTargetAtTime(vel > 0.1 ? vol : 0, audioCtx.currentTime, 0.04)
@@ -393,37 +363,34 @@ function loop() {
 
 loop()
 
-// --- BOTÓN EJECUTAR (FUSIONADO) ---
 btnEjecutar.addEventListener('click', () => {
     reproducirSonido(soundClick);
     const op = document.getElementById("select-algoritmo").value;
     
-    // 1. Determinar nodo inicial (Lógica HEAD)
-    let startNode = window.nodoInicial;
-    if (startNode === null || startNode === undefined) {
-        startNode = 0;
-    }
-
-    // 2. Preparar variables y estados (Lógica fernando)
     let ok = false;
-    let resultadoTexto = "$ Ejecutando algoritmo...";
+    let outcomeTexto = null; 
     
     window.coloresBipartito = null;
     window.mstAristas = null;
 
-    // 3. Ejecución de Algoritmos Específicos (MST - fernando)
+    
     if (op === "8" && typeof ejecutarPrim === "function") {
         if (!window.esPonderado) { alert("Prim requiere un grafo ponderado."); return; }
-        const result = ejecutarPrim(); 
-        if (result && result.aristas.length > 0) {
-            window.mstAristas = result.aristas;
-            const total = result.costo; 
-            resultadoTexto = `MST (Prim) encontrado. Peso Total: ${total}\n\nArista  | Peso\n----------------\n`;
-            window.mstAristas.forEach(a => { resultadoTexto += `${a.u} <--> ${a.v} | ${a.peso}\n`; });
-            ok = true;
-        } else {
-            resultadoTexto = "MST (Prim) ejecutado. No se encontró un MST (grafo desconectado o vacío).";
-            ok = true;
+        const result = ejecutarPrim();
+        
+        if (result && result.aristas) {
+             if (result.aristas.length > 0) {
+                 window.mstAristas = result.aristas;
+                 const total = result.costo; 
+                 outcomeTexto = `MST (Prim) encontrado. Peso Total: ${total}\n\nArista  | Peso\n----------------\n`;
+                 window.mstAristas.forEach(a => { outcomeTexto += `${a.u} <--> ${a.v} | ${a.peso}\n`; });
+                 ok = true;
+             } else {
+                 outcomeTexto = "MST (Prim) ejecutado. No se encontró un MST (grafo desconectado o vacío).";
+                 ok = true;
+             }
+        } else if (result === null) {
+            ok = false;
         }
     } 
     else if (op === "9" && typeof ejecutarKruskal === "function") {
@@ -432,43 +399,45 @@ btnEjecutar.addEventListener('click', () => {
         if (result && result.aristas.length > 0) {
             window.mstAristas = result.aristas;
             const total = result.costo;
-            resultadoTexto = `MST (Kruskal) encontrado. Peso Total: ${total}\n\nArista  | Peso\n----------------\n`;
-            window.mstAristas.forEach(a => { resultadoTexto += `${a.u} <--> ${a.v} | ${a.peso}\n`; });
+            outcomeTexto = `MST (Kruskal) encontrado. Peso Total: ${total}\n\nArista  | Peso\n----------------\n`;
+            window.mstAristas.forEach(a => { outcomeTexto += `${a.u} <--> ${a.v} | ${a.peso}\n`; });
             ok = true;
         } else {
-            resultadoTexto = "MST (Kruskal) ejecutado. No se encontró un MST (grafo desconectado o vacío).";
+            outcomeTexto = "MST (Kruskal) ejecutado. No se encontró un MST (grafo desconectado o vacío).";
             ok = true;
         }
     } 
     
-    // 4. Ejecución de Otros Algoritmos (Combinado: usa startNode de HEAD)
     if (!ok) {
         window.mstAristas = null;
-        if (op == "1" && typeof ejecutarBFS == "function") { ejecutarBFS(startNode); ok = true }
-        if (op == "2" && typeof ejecutarDFS == "function") { ejecutarDFS(startNode); ok = true }
-        if (op == "3" && typeof ejecutarDijkstra == "function") { ejecutarDijkstra(startNode); ok = true }
+        let algoritmoEjecutado = false;
         
-        // Algoritmos que no necesariamente requieren nodo inicial
-        if (op == "4" && typeof ejecutarBipartito == "function") { ejecutarBipartito(); ok = true }
-        if (op == "5" && typeof ejecutarMatching == "function") { ejecutarMatching(); ok = true }
-        if (op == "6" && typeof ejecutarBellman == "function") { ejecutarBellman(startNode); ok = true }
-        if (op == "7" && typeof ejecutarFloyd == "function") { ejecutarFloyd(); ok = true }
-        if (op == "10" && typeof ejecutarEsArbol == "function") { ejecutarEsArbol(); ok = true }
+        if (op == "1" && typeof ejecutarBFS == "function") { ejecutarBFS(); algoritmoEjecutado = true }
+        else if (op == "2" && typeof ejecutarDFS == "function") { ejecutarDFS(); algoritmoEjecutado = true }
+        else if (op == "3" && typeof ejecutarDijkstra == "function") { ejecutarDijkstra(); algoritmoEjecutado = true }
+        else if (op == "4" && typeof ejecutarBipartito == "function") { ejecutarBipartito(); algoritmoEjecutado = true }
+        else if (op == "5" && typeof ejecutarMatching == "function") { ejecutarMatching(); algoritmoEjecutado = true }
+        else if (op == "6" && typeof ejecutarBellman == "function") { ejecutarBellman(); algoritmoEjecutado = true }
+        else if (op == "7" && typeof ejecutarFloyd == "function") { ejecutarFloyd(); algoritmoEjecutado = true }
+        else if (op == "10" && typeof ejecutarEsArbol == "function") { ejecutarEsArbol(); algoritmoEjecutado = true }
         
-        if (ok) resultadoTexto = "$ Algoritmo ejecutado: Ver salida en consola";
+        if (algoritmoEjecutado) { 
+            ok = true;
+        }
     }
     
-    // 5. Finalizar (Dibujar y abrir consola)
     if (ok) {
         dibujarGrafo(window.grafo, window.esDirigido, window.esPonderado, 
                     window.coloresBipartito, window.mstAristas);
         
-        salida.textContent = resultadoTexto; 
+        if (outcomeTexto !== null) { 
+            salida.textContent = outcomeTexto; 
+        }
+
         openConsole();
     }
 });
 
-// --- EJEMPLOS PREDEFINIDOS ---
 const ejemplos = [
     {
         titulo: "DFS/BFS Simple",
