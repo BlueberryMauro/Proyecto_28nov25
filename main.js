@@ -2,7 +2,11 @@ console.log("Main.js cargado correctamente")
 
 // --- VARIABLES GLOBALES ---
 window.coloresBipartito = null
+<<<<<<< HEAD
 window.nodoInicial = null // Variable para guardar el nodo seleccionado
+=======
+window.mstAristas = null
+>>>>>>> fernando
 
 // --- REFERENCIAS DOM ---
 const btnCargar = document.getElementById("btn-cargar")
@@ -25,7 +29,11 @@ const closeExamplesBtn = document.getElementById("close-examples-btn")
 const examplesDrawer = document.getElementById("examples-drawer")
 const examplesGrid = document.getElementById("examples-grid")
 
+<<<<<<< HEAD
 // --- SCROLL SUAVE ---
+=======
+
+>>>>>>> fernando
 setTimeout(() => {
     if (window.LocomotiveScroll) {
         const scroll = new LocomotiveScroll({
@@ -109,8 +117,13 @@ btnCargar.addEventListener('click', () => {
     
     // Reseteamos estados
     window.coloresBipartito = null
+<<<<<<< HEAD
     window.nodoInicial = null // Reseteamos la selección al cargar nuevo grafo
     
+=======
+    window.mstAristas = null
+
+>>>>>>> fernando
     window.grafo = matriz
     window.esDirigido = chkDirigido.checked
     window.esPonderado = chkPonderado.checked
@@ -119,8 +132,12 @@ btnCargar.addEventListener('click', () => {
     dibujarGrafo(matriz, window.esDirigido, window.esPonderado)
 })
 
+<<<<<<< HEAD
 // --- DIBUJAR ---
 function dibujarGrafo(matriz, dirigido, ponderado, arrayColores = null) {
+=======
+function dibujarGrafo(matriz, dirigido, ponderado, arrayColores = null, mstAristas = null) {
+>>>>>>> fernando
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     const n = matriz.length
     if (n === 0) return
@@ -137,8 +154,11 @@ function dibujarGrafo(matriz, dirigido, ponderado, arrayColores = null) {
         }
     }
     
+<<<<<<< HEAD
     window.nodos = nodos; 
 
+=======
+>>>>>>> fernando
     ctx.lineWidth = 1.8
     ctx.strokeStyle = "rgba(139,148,158,0.4)"
 
@@ -173,7 +193,41 @@ function dibujarGrafo(matriz, dirigido, ponderado, arrayColores = null) {
         }
     }
 
+<<<<<<< HEAD
     // Dibujar Nodos
+=======
+    if (mstAristas && mstAristas.length > 0 && ponderado) {
+        ctx.lineWidth = 4.5
+        ctx.strokeStyle = "#48b6a3"
+        ctx.setLineDash([])
+
+        for(const arista of mstAristas) {
+            const u = arista.u
+            const v = arista.v
+
+            let a = nodos[u]
+            let b = nodos[v]
+
+            ctx.beginPath()
+            ctx.moveTo(a.x, a.y)
+            ctx.lineTo(b.x, b.y)
+            ctx.stroke()
+
+            const mx = (a.x + b.x) / 2
+            const my = (a.y + b.y) / 2
+
+            ctx.fillStyle = "#0d1117"
+            ctx.fillRect(mx - 10, my - 10, 20, 20)
+
+            ctx.fillStyle = "#f85149"
+            ctx.font = "bold 13px monospace"
+            ctx.textAlign = "center"
+            ctx.textBaseline = "middle"
+            ctx.fillText(arista.peso, mx, my)
+        }
+    }
+
+>>>>>>> fernando
     for (let n1 of nodos) {
         ctx.beginPath()
         ctx.arc(n1.x, n1.y, 20, 0, 2 * Math.PI)
@@ -348,7 +402,8 @@ function loop() {
     osc.frequency.setTargetAtTime(fr, audioCtx.currentTime, 0.04)
 
     if (window.grafo) {
-        dibujarGrafo(window.grafo, window.esDirigido, window.esPonderado, window.coloresBipartito)
+        dibujarGrafo(window.grafo, window.esDirigido, window.esPonderado, 
+                    window.coloresBipartito, window.mstAristas);
     }
 
     requestAnimationFrame(loop)
@@ -356,6 +411,7 @@ function loop() {
 
 loop()
 
+<<<<<<< HEAD
 // --- BOTÓN EJECUTAR ---
 btnEjecutar.addEventListener('click',()=>{
     reproducirSonido(soundClick);
@@ -385,6 +441,86 @@ btnEjecutar.addEventListener('click',()=>{
     
     if(ok) openConsole()
 })
+=======
+btnEjecutar.addEventListener('click', () => {
+    reproducirSonido(soundClick);
+    const op = document.getElementById("select-algoritmo").value;
+    let ok = false;
+    let mstResult = null; 
+    let resultadoTexto = "$ Ejecutando algoritmo...";
+    
+    window.coloresBipartito = null;
+    window.mstAristas = null;
+
+    if (op === "8" && typeof ejecutarPrim === "function") {
+        if (!window.esPonderado) { alert("Prim requiere un grafo ponderado."); return; }
+        
+        const result = ejecutarPrim(); 
+        
+        if (result && result.aristas.length > 0) {
+            window.mstAristas = result.aristas;
+            const total = result.costo; 
+            
+            resultadoTexto = `MST (Prim) encontrado. Peso Total: ${total}\n\n`;
+            resultadoTexto += "Arista  | Peso\n";
+            resultadoTexto += "----------------\n";
+            window.mstAristas.forEach(a => {
+                resultadoTexto += `${a.u} <--> ${a.v} | ${a.peso}\n`;
+            });
+
+            ok = true;
+        } else {
+            resultadoTexto = "MST (Prim) ejecutado. No se encontró un MST (grafo desconectado o vacío).";
+            ok = true;
+        }
+    } 
+    
+    else if (op === "9" && typeof ejecutarKruskal === "function") {
+        if (!window.esPonderado) { alert("Kruskal requiere un grafo ponderado."); return; }
+        
+        const result = ejecutarKruskal(); 
+        
+        if (result && result.aristas.length > 0) {
+            window.mstAristas = result.aristas;
+            const total = result.costo;
+            
+            resultadoTexto = `MST (Kruskal) encontrado. Peso Total: ${total}\n\n`;
+            resultadoTexto += "Arista  | Peso\n";
+            resultadoTexto += "----------------\n";
+            window.mstAristas.forEach(a => {
+                resultadoTexto += `${a.u} <--> ${a.v} | ${a.peso}\n`;
+            });
+
+            ok = true;
+        } else {
+            resultadoTexto = "MST (Kruskal) ejecutado. No se encontró un MST (grafo desconectado o vacío).";
+            ok = true;
+        }
+    } 
+    
+    if (!ok) {
+        window.mstAristas = null;
+        if (op == "1" && typeof ejecutarBFS == "function") { ejecutarBFS(); ok = true }
+        if (op == "2" && typeof ejecutarDFS == "function") { ejecutarDFS(); ok = true }
+        if (op == "3" && typeof ejecutarDijkstra == "function") { ejecutarDijkstra(); ok = true }
+        if (op == "4" && typeof ejecutarBipartito == "function") { ejecutarBipartito(); ok = true }
+        if (op == "5" && typeof ejecutarMatching == "function") { ejecutarMatching(); ok = true }
+        if (op == "6" && typeof ejecutarBellman == "function") { ejecutarBellman(); ok = true }
+        if (op == "7" && typeof ejecutarFloyd == "function") { ejecutarFloyd(); ok = true }
+        if (op == "10" && typeof ejecutarEsArbol == "function") { ejecutarEsArbol(); ok = true }
+        
+        if (ok) resultadoTexto = "$ Algoritmo ejecutado: Ver salida en consola";
+    }
+    
+    if (ok) {
+        dibujarGrafo(window.grafo, window.esDirigido, window.esPonderado, 
+                    window.coloresBipartito, window.mstAristas);
+        
+        salida.textContent = resultadoTexto; 
+        openConsole();
+    }
+});
+>>>>>>> fernando
 
 // --- EJEMPLOS PREDEFINIDOS ---
 const ejemplos = [

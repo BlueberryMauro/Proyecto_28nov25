@@ -1,17 +1,17 @@
+/**@returns {{aristas: Array<{u: number, v: number, peso: number}>, costo: number} | null}*/
 function ejecutarKruskal() {
     if (!window.grafo) {
-        alert("Primero carga una matriz en el botón 'Cargar'.");
-        return;
+        return null;
     }
 
     const grafo = window.grafo;
     const numVertices = grafo.length;
-    const esDirigido = window.esDirigido || false;
+    const esDirigido = window.esDirigido || false; 
 
     let aristas = [];
     for (let i = 0; i < numVertices; i++) {
         for (let j = 0; j < numVertices; j++) {
-            if (!esDirigido && i > j) continue;
+            if (!esDirigido && i > j) continue; 
 
             if (grafo[i][j] !== 0) {
                 aristas.push({
@@ -24,13 +24,13 @@ function ejecutarKruskal() {
     }
 
     aristas.sort((a, b) => a.peso - b.peso);
-
     let parent = new Array(numVertices);
     for (let i = 0; i < numVertices; i++) parent[i] = i;
 
     function find(i) {
         if (parent[i] === i) return i;
-        return find(parent[i]);
+        parent[i] = find(parent[i]); 
+        return parent[i];
     }
 
     function union(i, j) {
@@ -43,33 +43,23 @@ function ejecutarKruskal() {
         return false;
     }
 
-    let mst = [];
+    let mstAristas = [];
     let costoTotal = 0;
 
     for (let arista of aristas) {
         if (union(arista.u, arista.v)) {
-            mst.push(arista);
+            mstAristas.push(arista);
             costoTotal += arista.peso;
+            
+            if (mstAristas.length === numVertices - 1 && numVertices > 0) break;
         }
     }
 
-    let textoSalida = "Resultados Algoritmo de Kruskal (MST):\n\n";
-    textoSalida += "Arista   | Peso\n";
-    textoSalida += "----------------\n";
-
-    for (let item of mst) {
-        textoSalida += `${item.u} <--> ${item.v}  |  ${item.peso}\n`;
-    }
-
-    textoSalida += `\nCosto Total del MST: ${costoTotal}`;
-
-    const resultadoDiv = document.getElementById("resultado");
-    const tiempoDiv = document.getElementById("tiempo-analisis");
-    const espacioDiv = document.getElementById("espacio-analisis");
-
-    resultadoDiv.textContent = textoSalida;
-    tiempoDiv.textContent = "O(E log E)";
-    espacioDiv.textContent = "O(V + E)";
-
-    console.log("Kruskal ejecutado. Aristas seleccionadas:", mst);
+    document.getElementById("tiempo-analisis").textContent = "O(E log E)";
+    document.getElementById("espacio-analisis").textContent = "O(V + E)";
+    
+    return {
+        aristas: mstAristas,
+        costo: costoTotal
+    };
 }
