@@ -1,6 +1,6 @@
 # Estructuras Avanzadas Computacionales
 ### Universidad Autónoma de Aguascalientes
-![Logo UAA](https://upload.wikimedia.org/wikipedia/commons/c/ce/Logo_UAA.png)
+![Logo UAA](https://esiima.uaa.mx/cursoextension/imgs/logouaa2.jpg)
 
 [![Ver Proyecto Web](https://img.shields.io/badge/_Ver_Proyecto_Web-blueberrymauro.github.io-blue?style=for-the-badge&logo=github&color=3F5EFB)](https://blueberrymauro.github.io/Proyecto_28nov25/)
 
@@ -40,15 +40,21 @@ Para la gestión del proyecto se utilizó una metodología ágil adaptada:
 
 ## 4. Capturas del Tablero
 *Evidencia de la organización y asignación de tareas mediante metodología Kanban.*
+[![Ver en Trello](https://img.shields.io/badge/_Ver_en_Trello-proyecto28nov25-blue?style=for-the-badge&logo=trello&color=0079BF)](https://trello.com/b/WM8gfx30/proyecto28nov25)
 
-![Tablero Kanban Trello](https://placehold.co/800x400/png?text=Captura+del+Tablero+Trello+Kanban)
+![Tablero Kanban Trello](https://media.discordapp.net/attachments/1333954443875582042/1444065226570862693/image.png?ex=6931f18b&is=6930a00b&hm=f8c5f0162cdc66bec513ec831d89877a6749ed828b51632082cb9b467d9720f8&=&format=webp&quality=lossless&width=1785&height=748)
+
+![Tablero Kanban Trello](https://media.discordapp.net/attachments/1333954443875582042/1445566674320490517/image.png?ex=69317920&is=693027a0&hm=e170803b02ade043aa40f4607dcca3d6659379439e67fa86d8ded036785a8059&=&format=webp&quality=lossless&width=1806&height=748)
+
+![Tablero Kanban Trello](https://media.discordapp.net/attachments/1333954443875582042/1445891894293827697/image.png?ex=6931ff42&is=6930adc2&hm=90a89a74e4d3c1c92ea4b3391788f1cfd99fa2fc32eda8935ba828fa82e70bed&=&format=webp&quality=lossless&width=550&height=230)
 
 ---
 
 ## 5. Capturas y Enlaces del Repositorio
 *Evidencia del flujo de trabajo y control de versiones.*
+[![Historial de Cambios](https://img.shields.io/badge/Historial_de_Cambios-commits-blue?style=for-the-badge&logo=github)](https://github.com/BlueberryMauro/Proyecto_28nov25/commits/main/)
 
-![Historial de Cambios](https://placehold.co/800x400/png?text=Captura+de+GitHub+Historial+de+Cambios)
+![Historial de Cambios](https://media.discordapp.net/attachments/1333954443875582042/1445892341117489252/image.png?ex=6931ffad&is=6930ae2d&hm=04c162ddff5f8acaf4a86cc146dd2feb0504e0c33b33f062d95247ed405d3c70&=&format=webp&quality=lossless&width=1256&height=852)
 
 ---
 
