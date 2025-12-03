@@ -2,11 +2,8 @@ console.log("Main.js cargado correctamente")
 
 // --- VARIABLES GLOBALES ---
 window.coloresBipartito = null
-<<<<<<< HEAD
 window.nodoInicial = null // Variable para guardar el nodo seleccionado
-=======
 window.mstAristas = null
->>>>>>> fernando
 
 // --- REFERENCIAS DOM ---
 const btnCargar = document.getElementById("btn-cargar")
@@ -29,11 +26,7 @@ const closeExamplesBtn = document.getElementById("close-examples-btn")
 const examplesDrawer = document.getElementById("examples-drawer")
 const examplesGrid = document.getElementById("examples-grid")
 
-<<<<<<< HEAD
 // --- SCROLL SUAVE ---
-=======
-
->>>>>>> fernando
 setTimeout(() => {
     if (window.LocomotiveScroll) {
         const scroll = new LocomotiveScroll({
@@ -117,13 +110,9 @@ btnCargar.addEventListener('click', () => {
     
     // Reseteamos estados
     window.coloresBipartito = null
-<<<<<<< HEAD
     window.nodoInicial = null // Reseteamos la selección al cargar nuevo grafo
-    
-=======
     window.mstAristas = null
 
->>>>>>> fernando
     window.grafo = matriz
     window.esDirigido = chkDirigido.checked
     window.esPonderado = chkPonderado.checked
@@ -132,12 +121,7 @@ btnCargar.addEventListener('click', () => {
     dibujarGrafo(matriz, window.esDirigido, window.esPonderado)
 })
 
-<<<<<<< HEAD
-// --- DIBUJAR ---
-function dibujarGrafo(matriz, dirigido, ponderado, arrayColores = null) {
-=======
 function dibujarGrafo(matriz, dirigido, ponderado, arrayColores = null, mstAristas = null) {
->>>>>>> fernando
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     const n = matriz.length
     if (n === 0) return
@@ -154,11 +138,8 @@ function dibujarGrafo(matriz, dirigido, ponderado, arrayColores = null, mstArist
         }
     }
     
-<<<<<<< HEAD
     window.nodos = nodos; 
 
-=======
->>>>>>> fernando
     ctx.lineWidth = 1.8
     ctx.strokeStyle = "rgba(139,148,158,0.4)"
 
@@ -193,9 +174,7 @@ function dibujarGrafo(matriz, dirigido, ponderado, arrayColores = null, mstArist
         }
     }
 
-<<<<<<< HEAD
     // Dibujar Nodos
-=======
     if (mstAristas && mstAristas.length > 0 && ponderado) {
         ctx.lineWidth = 4.5
         ctx.strokeStyle = "#48b6a3"
@@ -227,7 +206,6 @@ function dibujarGrafo(matriz, dirigido, ponderado, arrayColores = null, mstArist
         }
     }
 
->>>>>>> fernando
     for (let n1 of nodos) {
         ctx.beginPath()
         ctx.arc(n1.x, n1.y, 20, 0, 2 * Math.PI)
@@ -411,37 +389,6 @@ function loop() {
 
 loop()
 
-<<<<<<< HEAD
-// --- BOTÓN EJECUTAR ---
-btnEjecutar.addEventListener('click',()=>{
-    reproducirSonido(soundClick);
-    const op = document.getElementById("select-algoritmo").value
-    
-    // Determinar nodo inicial (por defecto 0 si no se seleccionó nada)
-    let startNode = window.nodoInicial;
-    if (startNode === null || startNode === undefined) {
-        startNode = 0;
-    }
-
-    let ok=false
-    
-    // Pasamos el startNode a las funciones que lo requieran
-    if(op=="1" && typeof ejecutarBFS=="function"){ ejecutarBFS(startNode); ok=true }
-    if(op=="2" && typeof ejecutarDFS=="function"){ ejecutarDFS(startNode); ok=true }
-    if(op=="3" && typeof ejecutarDijkstra=="function"){ ejecutarDijkstra(startNode); ok=true }
-    
-    // Algoritmos que no suelen requerir nodo inicial obligatorio, pero enviamos por si acaso
-    if(op=="4" && typeof ejecutarBipartito=="function"){ ejecutarBipartito(); ok=true }
-    if(op=="5" && typeof ejecutarMatching=="function"){ ejecutarMatching(); ok=true }
-    if(op=="6" && typeof ejecutarBellman=="function"){ ejecutarBellman(startNode); ok=true }
-    if(op=="7" && typeof ejecutarFloyd=="function"){ ejecutarFloyd(); ok=true }
-    if(op=="8" && typeof ejecutarPrim=="function"){ ejecutarPrim(startNode); ok=true }
-    if(op=="9" && typeof ejecutarKruskal=="function"){ ejecutarKruskal(); ok=true }
-    if(op=="10" && typeof ejecutarEsArbol=="function") { ejecutarEsArbol(); ok = true }
-    
-    if(ok) openConsole()
-})
-=======
 btnEjecutar.addEventListener('click', () => {
     reproducirSonido(soundClick);
     const op = document.getElementById("select-algoritmo").value;
@@ -520,7 +467,6 @@ btnEjecutar.addEventListener('click', () => {
         openConsole();
     }
 });
->>>>>>> fernando
 
 // --- EJEMPLOS PREDEFINIDOS ---
 const ejemplos = [
