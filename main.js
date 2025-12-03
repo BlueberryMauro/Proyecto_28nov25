@@ -117,8 +117,14 @@ setTimeout(() => {
         const scroll = new LocomotiveScroll({
             el: document.querySelector('[data-scroll-container]'),
             smooth: true,
-            multiplier: 0.8
-        })
+            smartphone: {
+                smooth: false,
+            },
+            tablet: {
+                smooth: false,
+                breakpoint: 1024
+            }
+        });
         new ResizeObserver(() => scroll.update()).observe(document.querySelector('.main-container'))
     }
 }, 100)
