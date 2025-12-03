@@ -1,6 +1,6 @@
 # Estructuras Avanzadas Computacionales
 ### Universidad Autónoma de Aguascalientes
-![Logo UAA](https://esiima.uaa.mx/cursoextension/imgs/logouaa2.jpg)
+![Logo UAA](https://www.uaa.mx/portal/wp-content/uploads/2022/08/UAA-LOGO.png)
 
 [![Ver Proyecto Web](https://img.shields.io/badge/_Ver_Proyecto_Web-blueberrymauro.github.io-blue?style=for-the-badge&logo=github&color=3F5EFB)](https://blueberrymauro.github.io/Proyecto_28nov25/)
 
@@ -12,7 +12,7 @@
 | **Materia** | Estructuras Avanzadas Computacionales|
 | **Semestre** | $3^{\circ}$ (Agosto - Diciembre)|
 | **Proyecto** | Final (Evaluación Parcial)|
-| **Fecha de Entrega** | 2 de diciembre de 2025|
+| **Fecha de Entrega** | 4 de diciembre de 2025|
 
 ---
 
@@ -40,6 +40,7 @@ Para la gestión del proyecto se utilizó una metodología ágil adaptada:
 
 ## 4. Capturas del Tablero
 *Evidencia de la organización y asignación de tareas mediante metodología Kanban.*
+
 [![Ver en Trello](https://img.shields.io/badge/_Ver_en_Trello-proyecto28nov25-blue?style=for-the-badge&logo=trello&color=0079BF)](https://trello.com/b/WM8gfx30/proyecto28nov25)
 
 ![Tablero Kanban Trello](https://media.discordapp.net/attachments/1333954443875582042/1444065226570862693/image.png?ex=6931f18b&is=6930a00b&hm=f8c5f0162cdc66bec513ec831d89877a6749ed828b51632082cb9b467d9720f8&=&format=webp&quality=lossless&width=1785&height=748)
@@ -92,12 +93,7 @@ La visualización gráfica mediante el elemento Canvas de HTML5 presentó un des
 
 ## 9. Conclusiones
 
-El proyecto cumplió satisfactoriamente con el objetivo de implementar y visualizar una biblioteca robusta de algoritmos de grafos. A través de la metodología Kanban y el uso de Git, el equipo logró coordinar la integración de módulos complejos desarrollados en paralelo, como la lectura de archivos y la lógica interna de los algoritmos.
-
-Técnicamente se concluye lo siguiente:
-1.  La visualización interactiva es una herramienta pedagógica superior al código estático, permitiendo comprender comportamientos complejos como la relajación de aristas.
-2.  La modularización del código separando la lógica de dibujo de la lógica algorítmica fue esencial para escalar el proyecto de pocos integrantes a una suite completa de algoritmos.
-3.  Se reforzó el conocimiento sobre las limitaciones de tiempo y espacio de cada algoritmo, validando teóricamente por qué ciertas soluciones no son viables para grafos masivos debido a su crecimiento exponencial o cúbico.
+El proyecto cumplió su objetivo de implementar y mostrar una biblioteca sólida de algoritmos de grafos. Con Kanban y Git el equipo pudo organizar el trabajo y unir sin contratiempos módulos que se desarrollaron en paralelo, como la parte de lectura de archivos y la lógica interna de los algoritmos. Durante el desarrollo se vio que la visualización interactiva funciona mucho mejor que el código estático para entender lo que pasa dentro de los algoritmos, especialmente en procesos que normalmente son difíciles de imaginar, como la relajación de aristas. También quedó claro que separar la lógica de dibujo de la lógica algorítmica fue fundamental para que el proyecto pudiera crecer sin desordenarse, permitiendo agregar más funciones sin romper nada. Al final, el equipo reforzó su comprensión sobre las limitaciones de tiempo y espacio de cada algoritmo y entendió mejor por qué algunas soluciones dejan de ser viables cuando se aplican a grafos realmente grandes, ya que su complejidad crece demasiado rápido para ser práctica.
 
 ---
 
