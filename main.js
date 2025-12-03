@@ -2,11 +2,8 @@ console.log("Main.js cargado correctamente")
 
 // --- VARIABLES GLOBALES ---
 window.coloresBipartito = null
-<<<<<<< HEAD
-window.nodoInicial = null // Variable para guardar el nodo seleccionado
-=======
-window.mstAristas = null
->>>>>>> fernando
+window.nodoInicial = null // Variable para guardar el nodo seleccionado (HEAD)
+window.mstAristas = null  // Variable para guardar aristas MST (fernando)
 
 // --- REFERENCIAS DOM ---
 const btnCargar = document.getElementById("btn-cargar")
@@ -29,11 +26,7 @@ const closeExamplesBtn = document.getElementById("close-examples-btn")
 const examplesDrawer = document.getElementById("examples-drawer")
 const examplesGrid = document.getElementById("examples-grid")
 
-<<<<<<< HEAD
 // --- SCROLL SUAVE ---
-=======
-
->>>>>>> fernando
 setTimeout(() => {
     if (window.LocomotiveScroll) {
         const scroll = new LocomotiveScroll({
@@ -115,15 +108,11 @@ btnCargar.addEventListener('click', () => {
     if (!txt) { alert("Inserta una matriz primero"); return }
     const matriz = txt.split("\n").map(r => r.trim().split(/\s+/).map(Number))
     
-    // Reseteamos estados
+    // Reseteamos estados (Fusionado)
     window.coloresBipartito = null
-<<<<<<< HEAD
-    window.nodoInicial = null // Reseteamos la selección al cargar nuevo grafo
-    
-=======
-    window.mstAristas = null
+    window.nodoInicial = null // Reseteamos la selección
+    window.mstAristas = null  // Reseteamos MST
 
->>>>>>> fernando
     window.grafo = matriz
     window.esDirigido = chkDirigido.checked
     window.esPonderado = chkPonderado.checked
@@ -132,12 +121,9 @@ btnCargar.addEventListener('click', () => {
     dibujarGrafo(matriz, window.esDirigido, window.esPonderado)
 })
 
-<<<<<<< HEAD
 // --- DIBUJAR ---
-function dibujarGrafo(matriz, dirigido, ponderado, arrayColores = null) {
-=======
+// Se mantiene la firma extendida para soportar MST y colores
 function dibujarGrafo(matriz, dirigido, ponderado, arrayColores = null, mstAristas = null) {
->>>>>>> fernando
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     const n = matriz.length
     if (n === 0) return
@@ -154,15 +140,13 @@ function dibujarGrafo(matriz, dirigido, ponderado, arrayColores = null, mstArist
         }
     }
     
-<<<<<<< HEAD
+    // Guardamos referencia global (HEAD)
     window.nodos = nodos; 
 
-=======
->>>>>>> fernando
     ctx.lineWidth = 1.8
     ctx.strokeStyle = "rgba(139,148,158,0.4)"
 
-    // Dibujar aristas
+    // Dibujar aristas normales
     for (let i = 0; i < n; i++) {
         for (let j = 0; j < n; j++) {
             if (matriz[i][j] !== 0) {
@@ -193,9 +177,7 @@ function dibujarGrafo(matriz, dirigido, ponderado, arrayColores = null, mstArist
         }
     }
 
-<<<<<<< HEAD
-    // Dibujar Nodos
-=======
+    // Dibujar MST Aristas (fernando)
     if (mstAristas && mstAristas.length > 0 && ponderado) {
         ctx.lineWidth = 4.5
         ctx.strokeStyle = "#48b6a3"
@@ -227,7 +209,7 @@ function dibujarGrafo(matriz, dirigido, ponderado, arrayColores = null, mstArist
         }
     }
 
->>>>>>> fernando
+    // Dibujar Nodos
     for (let n1 of nodos) {
         ctx.beginPath()
         ctx.arc(n1.x, n1.y, 20, 0, 2 * Math.PI)
@@ -239,7 +221,7 @@ function dibujarGrafo(matriz, dirigido, ponderado, arrayColores = null, mstArist
             else ctx.fillStyle = "#48b6a3" // Verde azulado
         } 
         else if (n1.id === window.nodoInicial) {
-            // Nodo seleccionado por el usuario (Dorado)
+            // Nodo seleccionado por el usuario (HEAD)
             ctx.fillStyle = "#d29922" 
         } 
         else {
@@ -302,7 +284,7 @@ canvas.addEventListener("mousedown", e => {
         if (Math.hypot(mx - n1.x, my - n1.y) <= 20) {
             dragging = n1
             
-            // Lógica de Selección
+            // Lógica de Selección (HEAD)
             window.nodoInicial = n1.id
             clickEnNodo = true;
             
@@ -411,86 +393,47 @@ function loop() {
 
 loop()
 
-<<<<<<< HEAD
-// --- BOTÓN EJECUTAR ---
-btnEjecutar.addEventListener('click',()=>{
+// --- BOTÓN EJECUTAR (FUSIONADO) ---
+btnEjecutar.addEventListener('click', () => {
     reproducirSonido(soundClick);
-    const op = document.getElementById("select-algoritmo").value
+    const op = document.getElementById("select-algoritmo").value;
     
-    // Determinar nodo inicial (por defecto 0 si no se seleccionó nada)
+    // 1. Determinar nodo inicial (Lógica HEAD)
     let startNode = window.nodoInicial;
     if (startNode === null || startNode === undefined) {
         startNode = 0;
     }
 
-    let ok=false
-    
-    // Pasamos el startNode a las funciones que lo requieran
-    if(op=="1" && typeof ejecutarBFS=="function"){ ejecutarBFS(startNode); ok=true }
-    if(op=="2" && typeof ejecutarDFS=="function"){ ejecutarDFS(startNode); ok=true }
-    if(op=="3" && typeof ejecutarDijkstra=="function"){ ejecutarDijkstra(startNode); ok=true }
-    
-    // Algoritmos que no suelen requerir nodo inicial obligatorio, pero enviamos por si acaso
-    if(op=="4" && typeof ejecutarBipartito=="function"){ ejecutarBipartito(); ok=true }
-    if(op=="5" && typeof ejecutarMatching=="function"){ ejecutarMatching(); ok=true }
-    if(op=="6" && typeof ejecutarBellman=="function"){ ejecutarBellman(startNode); ok=true }
-    if(op=="7" && typeof ejecutarFloyd=="function"){ ejecutarFloyd(); ok=true }
-    if(op=="8" && typeof ejecutarPrim=="function"){ ejecutarPrim(startNode); ok=true }
-    if(op=="9" && typeof ejecutarKruskal=="function"){ ejecutarKruskal(); ok=true }
-    if(op=="10" && typeof ejecutarEsArbol=="function") { ejecutarEsArbol(); ok = true }
-    
-    if(ok) openConsole()
-})
-=======
-btnEjecutar.addEventListener('click', () => {
-    reproducirSonido(soundClick);
-    const op = document.getElementById("select-algoritmo").value;
+    // 2. Preparar variables y estados (Lógica fernando)
     let ok = false;
-    let mstResult = null; 
     let resultadoTexto = "$ Ejecutando algoritmo...";
     
     window.coloresBipartito = null;
     window.mstAristas = null;
 
+    // 3. Ejecución de Algoritmos Específicos (MST - fernando)
     if (op === "8" && typeof ejecutarPrim === "function") {
         if (!window.esPonderado) { alert("Prim requiere un grafo ponderado."); return; }
-        
         const result = ejecutarPrim(); 
-        
         if (result && result.aristas.length > 0) {
             window.mstAristas = result.aristas;
             const total = result.costo; 
-            
-            resultadoTexto = `MST (Prim) encontrado. Peso Total: ${total}\n\n`;
-            resultadoTexto += "Arista  | Peso\n";
-            resultadoTexto += "----------------\n";
-            window.mstAristas.forEach(a => {
-                resultadoTexto += `${a.u} <--> ${a.v} | ${a.peso}\n`;
-            });
-
+            resultadoTexto = `MST (Prim) encontrado. Peso Total: ${total}\n\nArista  | Peso\n----------------\n`;
+            window.mstAristas.forEach(a => { resultadoTexto += `${a.u} <--> ${a.v} | ${a.peso}\n`; });
             ok = true;
         } else {
             resultadoTexto = "MST (Prim) ejecutado. No se encontró un MST (grafo desconectado o vacío).";
             ok = true;
         }
     } 
-    
     else if (op === "9" && typeof ejecutarKruskal === "function") {
         if (!window.esPonderado) { alert("Kruskal requiere un grafo ponderado."); return; }
-        
         const result = ejecutarKruskal(); 
-        
         if (result && result.aristas.length > 0) {
             window.mstAristas = result.aristas;
             const total = result.costo;
-            
-            resultadoTexto = `MST (Kruskal) encontrado. Peso Total: ${total}\n\n`;
-            resultadoTexto += "Arista  | Peso\n";
-            resultadoTexto += "----------------\n";
-            window.mstAristas.forEach(a => {
-                resultadoTexto += `${a.u} <--> ${a.v} | ${a.peso}\n`;
-            });
-
+            resultadoTexto = `MST (Kruskal) encontrado. Peso Total: ${total}\n\nArista  | Peso\n----------------\n`;
+            window.mstAristas.forEach(a => { resultadoTexto += `${a.u} <--> ${a.v} | ${a.peso}\n`; });
             ok = true;
         } else {
             resultadoTexto = "MST (Kruskal) ejecutado. No se encontró un MST (grafo desconectado o vacío).";
@@ -498,20 +441,24 @@ btnEjecutar.addEventListener('click', () => {
         }
     } 
     
+    // 4. Ejecución de Otros Algoritmos (Combinado: usa startNode de HEAD)
     if (!ok) {
         window.mstAristas = null;
-        if (op == "1" && typeof ejecutarBFS == "function") { ejecutarBFS(); ok = true }
-        if (op == "2" && typeof ejecutarDFS == "function") { ejecutarDFS(); ok = true }
-        if (op == "3" && typeof ejecutarDijkstra == "function") { ejecutarDijkstra(); ok = true }
+        if (op == "1" && typeof ejecutarBFS == "function") { ejecutarBFS(startNode); ok = true }
+        if (op == "2" && typeof ejecutarDFS == "function") { ejecutarDFS(startNode); ok = true }
+        if (op == "3" && typeof ejecutarDijkstra == "function") { ejecutarDijkstra(startNode); ok = true }
+        
+        // Algoritmos que no necesariamente requieren nodo inicial
         if (op == "4" && typeof ejecutarBipartito == "function") { ejecutarBipartito(); ok = true }
         if (op == "5" && typeof ejecutarMatching == "function") { ejecutarMatching(); ok = true }
-        if (op == "6" && typeof ejecutarBellman == "function") { ejecutarBellman(); ok = true }
+        if (op == "6" && typeof ejecutarBellman == "function") { ejecutarBellman(startNode); ok = true }
         if (op == "7" && typeof ejecutarFloyd == "function") { ejecutarFloyd(); ok = true }
         if (op == "10" && typeof ejecutarEsArbol == "function") { ejecutarEsArbol(); ok = true }
         
         if (ok) resultadoTexto = "$ Algoritmo ejecutado: Ver salida en consola";
     }
     
+    // 5. Finalizar (Dibujar y abrir consola)
     if (ok) {
         dibujarGrafo(window.grafo, window.esDirigido, window.esPonderado, 
                     window.coloresBipartito, window.mstAristas);
@@ -520,7 +467,6 @@ btnEjecutar.addEventListener('click', () => {
         openConsole();
     }
 });
->>>>>>> fernando
 
 // --- EJEMPLOS PREDEFINIDOS ---
 const ejemplos = [
