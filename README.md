@@ -1,5 +1,6 @@
 # Estructuras Avanzadas Computacionales
 ### Universidad Autónoma de Aguascalientes
+![Logo UAA](https://upload.wikimedia.org/wikipedia/commons/c/ce/Logo_UAA.png)
 
 [![Ver Proyecto Web](https://img.shields.io/badge/_Ver_Proyecto_Web-blueberrymauro.github.io-blue?style=for-the-badge&logo=github&color=3F5EFB)](https://blueberrymauro.github.io/Proyecto_28nov25/)
 
@@ -52,7 +53,7 @@ Para la gestión del proyecto se utilizó una metodología ágil adaptada:
 ---
 
 ## 6. Algoritmos Implementados
-El sistema permite la creación dinámica de grafos, los cuales, tal como define GeeksforGeeks (2024), son estructuras de datos no lineales formadas por nodos y aristas. La aplicación soporta grafos dirigidos, no dirigidos y ponderados, ejecutando los siguientes algoritmos:
+El sistema permite la creación dinámica de grafos dirigidos, no dirigidos y ponderados, así como la ejecución de los siguientes algoritmos:
 
 * **Recorridos:** Búsqueda en Anchura BFS y Búsqueda en Profundidad DFS.
 * **Rutas Más Cortas:** Dijkstra, Bellman Ford y Floyd Warshall.
@@ -79,29 +80,29 @@ El sistema permite la creación dinámica de grafos, los cuales, tal como define
 
 Durante el desarrollo de este laboratorio de grafos, se observó que la elección de la estructura de datos fundamental, en este caso la **Matriz de Adyacencia**, influye directamente en la complejidad temporal. Como señala freeCodeCamp (2024), "las listas de adyacencia son mejores para grafos dispersos", (freeCodeCamp, 2024) mientras que nuestra elección de matriz penaliza el rendimiento en recorridos simples elevando su costo a $O(V^2)$, aunque facilita la verificación de conexiones en $O(1)$.
 
-La visualización gráfica mediante Canvas presentó un desafío técnico. Se optó por redibujar el grafo completo en cada ciclo, un enfoque que Mozilla Developer Network (2025) describe como el estándar para animaciones de alto rendimiento en la API de Canvas, permitiendo movimientos fluidos y retroalimentación visual inmediata.
+La visualización gráfica mediante el elemento Canvas de HTML5 presentó un desafío técnico significativo referente a la sincronización entre el estado lógico del algoritmo, como los nodos visitados o aristas resultantes, y su representación visual. Se optó por un sistema de renderizado que redibuja el grafo completo en cada ciclo de animación, permitiendo movimientos fluidos y retroalimentación visual inmediata como el coloreado de grafos bipartitos o el trazado de rutas críticas.
 
 ---
 
 ## 9. Conclusiones
 
-El proyecto cumplió satisfactoriamente con el objetivo de implementar y visualizar una biblioteca robusta de algoritmos. Técnicamente se concluye lo siguiente:
+El proyecto cumplió satisfactoriamente con el objetivo de implementar y visualizar una biblioteca robusta de algoritmos de grafos. A través de la metodología Kanban y el uso de Git, el equipo logró coordinar la integración de módulos complejos desarrollados en paralelo, como la lectura de archivos y la lógica interna de los algoritmos.
 
-1.  **Valor Pedagógico:** La visualización interactiva supera al código estático. Según VisuAlgo (s.f.), "visualizar estructuras de datos y algoritmos" (VisuAlgo, s.f.) permite comprender conceptos abstractos como la relajación de aristas de forma intuitiva.
-2.  **Modularización:** La separación de la lógica de dibujo (UI) de la lógica algorítmica fue esencial, alineándose con los principios de desarrollo modernos que sugieren que (Atlassian, 2024) una arquitectura desacoplada facilita la escalabilidad del software.
-3.  **Validación Teórica:** Se reforzó el conocimiento sobre las limitaciones de tiempo. Validamos que, tal como advierte CP-Algorithms (2023), soluciones cúbicas como Floyd-Warshall no son viables para grafos masivos, limitando su uso práctico a conjuntos de datos controlados.
+Técnicamente se concluye lo siguiente:
+1.  La visualización interactiva es una herramienta pedagógica superior al código estático, permitiendo comprender comportamientos complejos como la relajación de aristas.
+2.  La modularización del código separando la lógica de dibujo de la lógica algorítmica fue esencial para escalar el proyecto de pocos integrantes a una suite completa de algoritmos.
+3.  Se reforzó el conocimiento sobre las limitaciones de tiempo y espacio de cada algoritmo, validando teóricamente por qué ciertas soluciones no son viables para grafos masivos debido a su crecimiento exponencial o cúbico.
 
 ---
 
 ## 10. Bibliografía
 
-* Atlassian. (2024). *Microservices Architecture*. Atlassian Agile Coach. Recuperado de https://www.atlassian.com/microservices/microservices-architecture
 * Brilliant. (2024). *Bellman-Ford Algorithm*. Brilliant.org. Recuperado de https://brilliant.org/wiki/bellman-ford-algorithm/
 * CP-Algorithms. (2023). *Floyd-Warshall Algorithm*. CP-Algorithms. Recuperado de https://cp-algorithms.com/graph/floyd-warshall.html
 * freeCodeCamp. (2024). *Adjacency Matrix vs Adjacency List – Graph Data Structures Explained*. freeCodeCamp.org. Recuperado de https://www.freecodecamp.org/news/adjacency-matrix-vs-adjacency-list/
 * GeeksforGeeks. (2023). *Kruskal’s Minimum Spanning Tree Algorithm*. GeeksforGeeks. Recuperado de https://www.geeksforgeeks.org/kruskals-minimum-spanning-tree-algorithm-greedy-algo-2/
 * GeeksforGeeks. (2024). *Graph Data Structure And Algorithms*. GeeksforGeeks. Recuperado de https://www.geeksforgeeks.org/graph-data-structure-and-algorithms/
 * Jenkins, J. (2023). *Prim's Algorithm for Minimum Spanning Trees*. Baeldung on Computer Science. Recuperado de https://www.baeldung.com/cs/prims-algorithm
-* Mozilla Developer Network. (2025). *Basic animations - Web APIs*. MDN Web Docs. Recuperado de https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Basic_animations
 * Programiz. (2024). *Dijkstra's Algorithm*. Programiz. Recuperado de https://www.programiz.com/dsa/dijkstra-algorithm
 * VisuAlgo. (s.f.). *Visualising Data Structures and Algorithms through Animation*. VisuAlgo.net. Recuperado de https://visualgo.net/en
+* Universidad Autónoma de Aguascalientes. (2025). Estructuras computacionales avanzadas: Proyecto [Material de la asignatura]. Centro de Ciencias Básicas, Departamento de Ciencias de la Computación.
