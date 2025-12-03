@@ -1,6 +1,7 @@
 console.log("Main.js cargado correctamente")
 
 window.coloresBipartito = null
+window.mstAristas = null
 
 const btnCargar = document.getElementById("btn-cargar")
 const btnEjecutar = document.getElementById("btn-ejecutar")
@@ -100,6 +101,7 @@ btnCargar.addEventListener('click', () => {
     const matriz = txt.split("\n").map(r => r.trim().split(/\s+/).map(Number))
     
     window.coloresBipartito = null
+    window.mstAristas = null
     
     window.grafo = matriz
     window.esDirigido = chkDirigido.checked
@@ -109,7 +111,7 @@ btnCargar.addEventListener('click', () => {
     dibujarGrafo(matriz, window.esDirigido, window.esPonderado)
 })
 
-function dibujarGrafo(matriz, dirigido, ponderado, arrayColores = null) {
+function dibujarGrafo(matriz, dirigido, ponderado, arrayColores = null, mstAristas = null) {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     const n = matriz.length
     if (n === 0) return
@@ -126,10 +128,6 @@ function dibujarGrafo(matriz, dirigido, ponderado, arrayColores = null) {
         }
     }
     
-    // --- CURSOR INFO --- ///
-    window.nodos = nodos; 
-    // ----------------------------- //
-
     ctx.lineWidth = 1.8
     ctx.strokeStyle = "rgba(139,148,158,0.4)"
 
@@ -160,6 +158,37 @@ function dibujarGrafo(matriz, dirigido, ponderado, arrayColores = null) {
                     ctx.fillText(matriz[i][j], mx, my)
                 }
             }
+        }
+    }
+
+    if (mstAristas && mstAristas.length > 0 && ponderado) {
+        ctx.lineWidth = 4.5
+        ctx.strokeStyle = "#48b6a3"
+        ctx.setLineDash([])
+
+        for(const arista of mstAristas) {
+            const u = arista.u
+            const v = arista.v
+
+            let a = nodos[u]
+            let b = nodos[v]
+
+            ctx.beginPath()
+            ctx.moveTo(a.x, a.y)
+            ctx.lineTo(b.x, b.y)
+            ctx.stroke()
+
+            const mx = (a.x + b.x) / 2
+            const my = (a.y + b.y) / 2
+
+            ctx.fillStyle = "#0d1117"
+            ctx.fillRect(mx - 10, my - 10, 20, 20)
+
+            ctx.fillStyle = "#f85149"
+            ctx.font = "bold 13px monospace"
+            ctx.textAlign = "center"
+            ctx.textBaseline = "middle"
+            ctx.fillText(arista.peso, mx, my)
         }
     }
 
@@ -305,7 +334,8 @@ function loop() {
     osc.frequency.setTargetAtTime(fr, audioCtx.currentTime, 0.04)
 
     if (window.grafo) {
-        dibujarGrafo(window.grafo, window.esDirigido, window.esPonderado, window.coloresBipartito)
+        dibujarGrafo(window.grafo, window.esDirigido, window.esPonderado, 
+                    window.coloresBipartito, window.mstAristas);
     }
 
     requestAnimationFrame(loop)
@@ -320,7 +350,8 @@ btnEjecutar.addEventListener('click', () => {
     let mstResult = null; 
     let resultadoTexto = "$ Ejecutando algoritmo...";
     
-    window.coloresBipartito = null; 
+    window.coloresBipartito = null;
+    window.mstAristas = null;
 
     if (op === "8" && typeof ejecutarPrim === "function") {
         if (!window.esPonderado) { alert("Prim requiere un grafo ponderado."); return; }
@@ -328,17 +359,16 @@ btnEjecutar.addEventListener('click', () => {
         const result = ejecutarPrim(); 
         
         if (result && result.aristas.length > 0) {
-            mstResult = result.aristas;
+            window.mstAristas = result.aristas;
             const total = result.costo; 
             
             resultadoTexto = `MST (Prim) encontrado. Peso Total: ${total}\n\n`;
             resultadoTexto += "Arista  | Peso\n";
             resultadoTexto += "----------------\n";
-            mstResult.forEach(a => {
+            window.mstAristas.forEach(a => {
                 resultadoTexto += `${a.u} <--> ${a.v} | ${a.peso}\n`;
             });
 
-            dibujarAristasMST(mstResult); 
             ok = true;
         } else {
             resultadoTexto = "MST (Prim) ejecutado. No se encontró un MST (grafo desconectado o vacío).";
@@ -352,17 +382,16 @@ btnEjecutar.addEventListener('click', () => {
         const result = ejecutarKruskal(); 
         
         if (result && result.aristas.length > 0) {
-            mstResult = result.aristas;
+            window.mstAristas = result.aristas;
             const total = result.costo;
             
             resultadoTexto = `MST (Kruskal) encontrado. Peso Total: ${total}\n\n`;
             resultadoTexto += "Arista  | Peso\n";
             resultadoTexto += "----------------\n";
-            mstResult.forEach(a => {
+            window.mstAristas.forEach(a => {
                 resultadoTexto += `${a.u} <--> ${a.v} | ${a.peso}\n`;
             });
 
-            dibujarAristasMST(mstResult); 
             ok = true;
         } else {
             resultadoTexto = "MST (Kruskal) ejecutado. No se encontró un MST (grafo desconectado o vacío).";
@@ -371,6 +400,7 @@ btnEjecutar.addEventListener('click', () => {
     } 
     
     if (!ok) {
+        window.mstAristas = null;
         if (op == "1" && typeof ejecutarBFS == "function") { ejecutarBFS(); ok = true }
         if (op == "2" && typeof ejecutarDFS == "function") { ejecutarDFS(); ok = true }
         if (op == "3" && typeof ejecutarDijkstra == "function") { ejecutarDijkstra(); ok = true }
@@ -384,10 +414,10 @@ btnEjecutar.addEventListener('click', () => {
     }
     
     if (ok) {
+        dibujarGrafo(window.grafo, window.esDirigido, window.esPonderado, 
+                    window.coloresBipartito, window.mstAristas);
+        
         salida.textContent = resultadoTexto; 
-        if (!mstResult) {
-            dibujarGrafo(window.grafo, window.esDirigido, window.esPonderado, window.coloresBipartito);
-        }
         openConsole();
     }
 });
@@ -528,60 +558,3 @@ function dibujarMiniatura(cvs, strMatriz, dirigido) {
 }
 
 renderExamples()
-
-function dibujarAristasMST(mstAristas) {
-    dibujarGrafo(window.grafo, window.esDirigido, window.esPonderado, window.coloresBipartito)
-    if (!window.esPonderado) return;
-    
-    ctx.lineWidth = 4.5
-    ctx.strokeStyle = "#48b6a3"
-
-    const r = 20
-
-    for(const arista of mstAristas){
-        const u = arista.u
-        const v = arista.v
-
-        let a = nodos[u] 
-        let b = nodos[v] 
-
-        ctx.beginPath()
-        ctx.moveTo(a.x, a.y)
-        ctx.lineTo(b.x, b.y)
-        ctx.stroke()
-
-        const mx = (a.x + b.x) / 2
-        const my = (a.y + b.y) / 2
-
-        ctx.fillStyle = "#0d1117" 
-        ctx.fillRect(mx-10, my-10, 20, 20)
-
-        ctx.fillStyle = "#f85149"
-        ctx.font = "bold 13px monospace"
-        ctx.textAlign = "center"
-        ctx.textBaseline = "middle"
-        ctx.fillText(arista.peso, mx, my)
-    }
-
-    for(let n1 of nodos){
-        ctx.beginPath()
-        ctx.arc(n1.x, n1.y, r, 0, 2*Math.PI)
-        
-        if(window.coloresBipartito && window.coloresBipartito[n1.id] !== -1 && window.coloresBipartito[n1.id] !== undefined){
-            ctx.fillStyle = window.coloresBipartito[n1.id] === 0 ? "#f85149" : "#48b6a3" 
-        } else {
-            ctx.fillStyle = "#21262d"
-        }
-
-        ctx.fill()
-        ctx.strokeStyle = "#30363d" 
-        ctx.lineWidth = 2
-        ctx.stroke()
-
-        ctx.fillStyle = "#ffffffff"
-        ctx.font = "bold 16px Arial"
-        ctx.textAlign = "center"
-        ctx.textBaseline = "middle"
-        ctx.fillText(n1.id, n1.x, n1.y)
-    }
-}
