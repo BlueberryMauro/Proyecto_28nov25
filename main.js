@@ -313,22 +313,84 @@ function loop() {
 
 loop()
 
-btnEjecutar.addEventListener('click',()=>{
+btnEjecutar.addEventListener('click', () => {
     reproducirSonido(soundClick);
-    const op=document.getElementById("select-algoritmo").value
-    let ok=false
-    if(op=="1"&&typeof ejecutarBFS=="function"){ejecutarBFS();ok=true}
-    if(op=="2"&&typeof ejecutarDFS=="function"){ejecutarDFS();ok=true}
-    if(op=="3"&&typeof ejecutarDijkstra=="function"){ejecutarDijkstra();ok=true}
-    if(op=="4"&&typeof ejecutarBipartito=="function"){ejecutarBipartito();ok=true}
-    if(op=="5"&&typeof ejecutarMatching=="function"){ejecutarMatching();ok=true}
-    if(op=="6"&&typeof ejecutarBellman=="function"){ejecutarBellman();ok=true}
-    if(op=="7"&&typeof ejecutarFloyd=="function"){ejecutarFloyd();ok=true}
-    if(op=="8"&&typeof ejecutarPrim=="function"){ejecutarPrim();ok=true}
-    if(op=="9"&&typeof ejecutarKruskal=="function"){ejecutarKruskal();ok=true}
-    if (op == "10" && typeof ejecutarEsArbol == "function") { ejecutarEsArbol(); ok = true }
-    if(ok)openConsole()
-})
+    const op = document.getElementById("select-algoritmo").value;
+    let ok = false;
+    let mstResult = null; 
+    let resultadoTexto = "$ Ejecutando algoritmo...";
+    
+    window.coloresBipartito = null; 
+
+    if (op === "8" && typeof ejecutarPrim === "function") {
+        if (!window.esPonderado) { alert("Prim requiere un grafo ponderado."); return; }
+        
+        const result = ejecutarPrim(); 
+        
+        if (result && result.aristas.length > 0) {
+            mstResult = result.aristas;
+            const total = result.costo; 
+            
+            resultadoTexto = `MST (Prim) encontrado. Peso Total: ${total}\n\n`;
+            resultadoTexto += "Arista  | Peso\n";
+            resultadoTexto += "----------------\n";
+            mstResult.forEach(a => {
+                resultadoTexto += `${a.u} <--> ${a.v} | ${a.peso}\n`;
+            });
+
+            dibujarAristasMST(mstResult); 
+            ok = true;
+        } else {
+            resultadoTexto = "MST (Prim) ejecutado. No se encontró un MST (grafo desconectado o vacío).";
+            ok = true;
+        }
+    } 
+    
+    else if (op === "9" && typeof ejecutarKruskal === "function") {
+        if (!window.esPonderado) { alert("Kruskal requiere un grafo ponderado."); return; }
+        
+        const result = ejecutarKruskal(); 
+        
+        if (result && result.aristas.length > 0) {
+            mstResult = result.aristas;
+            const total = result.costo;
+            
+            resultadoTexto = `MST (Kruskal) encontrado. Peso Total: ${total}\n\n`;
+            resultadoTexto += "Arista  | Peso\n";
+            resultadoTexto += "----------------\n";
+            mstResult.forEach(a => {
+                resultadoTexto += `${a.u} <--> ${a.v} | ${a.peso}\n`;
+            });
+
+            dibujarAristasMST(mstResult); 
+            ok = true;
+        } else {
+            resultadoTexto = "MST (Kruskal) ejecutado. No se encontró un MST (grafo desconectado o vacío).";
+            ok = true;
+        }
+    } 
+    
+    if (!ok) {
+        if (op == "1" && typeof ejecutarBFS == "function") { ejecutarBFS(); ok = true }
+        if (op == "2" && typeof ejecutarDFS == "function") { ejecutarDFS(); ok = true }
+        if (op == "3" && typeof ejecutarDijkstra == "function") { ejecutarDijkstra(); ok = true }
+        if (op == "4" && typeof ejecutarBipartito == "function") { ejecutarBipartito(); ok = true }
+        if (op == "5" && typeof ejecutarMatching == "function") { ejecutarMatching(); ok = true }
+        if (op == "6" && typeof ejecutarBellman == "function") { ejecutarBellman(); ok = true }
+        if (op == "7" && typeof ejecutarFloyd == "function") { ejecutarFloyd(); ok = true }
+        if (op == "10" && typeof ejecutarEsArbol == "function") { ejecutarEsArbol(); ok = true }
+        
+        if (ok) resultadoTexto = "$ Algoritmo ejecutado: Ver salida en consola";
+    }
+    
+    if (ok) {
+        salida.textContent = resultadoTexto; 
+        if (!mstResult) {
+            dibujarGrafo(window.grafo, window.esDirigido, window.esPonderado, window.coloresBipartito);
+        }
+        openConsole();
+    }
+});
 
 const ejemplos = [
     {
@@ -466,3 +528,60 @@ function dibujarMiniatura(cvs, strMatriz, dirigido) {
 }
 
 renderExamples()
+
+function dibujarAristasMST(mstAristas) {
+    dibujarGrafo(window.grafo, window.esDirigido, window.esPonderado, window.coloresBipartito)
+    if (!window.esPonderado) return;
+    
+    ctx.lineWidth = 4.5
+    ctx.strokeStyle = "#48b6a3"
+
+    const r = 20
+
+    for(const arista of mstAristas){
+        const u = arista.u
+        const v = arista.v
+
+        let a = nodos[u] 
+        let b = nodos[v] 
+
+        ctx.beginPath()
+        ctx.moveTo(a.x, a.y)
+        ctx.lineTo(b.x, b.y)
+        ctx.stroke()
+
+        const mx = (a.x + b.x) / 2
+        const my = (a.y + b.y) / 2
+
+        ctx.fillStyle = "#0d1117" 
+        ctx.fillRect(mx-10, my-10, 20, 20)
+
+        ctx.fillStyle = "#f85149"
+        ctx.font = "bold 13px monospace"
+        ctx.textAlign = "center"
+        ctx.textBaseline = "middle"
+        ctx.fillText(arista.peso, mx, my)
+    }
+
+    for(let n1 of nodos){
+        ctx.beginPath()
+        ctx.arc(n1.x, n1.y, r, 0, 2*Math.PI)
+        
+        if(window.coloresBipartito && window.coloresBipartito[n1.id] !== -1 && window.coloresBipartito[n1.id] !== undefined){
+            ctx.fillStyle = window.coloresBipartito[n1.id] === 0 ? "#f85149" : "#48b6a3" 
+        } else {
+            ctx.fillStyle = "#21262d"
+        }
+
+        ctx.fill()
+        ctx.strokeStyle = "#30363d" 
+        ctx.lineWidth = 2
+        ctx.stroke()
+
+        ctx.fillStyle = "#ffffffff"
+        ctx.font = "bold 16px Arial"
+        ctx.textAlign = "center"
+        ctx.textBaseline = "middle"
+        ctx.fillText(n1.id, n1.x, n1.y)
+    }
+}

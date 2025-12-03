@@ -1,7 +1,8 @@
+/**@returns {{aristas: Array<{u: number, v: number, peso: number}>, costo: number} | null}*/
+
 function ejecutarPrim() {
     if (!window.grafo) {
-        alert("Primero carga una matriz en el botón 'Cargar'.");
-        return;
+        return null;
     }
 
     const grafo = window.grafo;
@@ -10,10 +11,10 @@ function ejecutarPrim() {
     let parent = new Array(numVertices).fill(-1);
     let key = new Array(numVertices).fill(Infinity);
     let mstSet = new Array(numVertices).fill(false);
-
+    
     key[0] = 0;
     parent[0] = -1;
-
+    
     for (let count = 0; count < numVertices - 1; count++) {
         let u = -1;
         let min = Infinity;
@@ -25,41 +26,43 @@ function ejecutarPrim() {
             }
         }
 
-        if (u === -1) break;
+        if (u === -1) break; 
 
         mstSet[u] = true;
 
         for (let v = 0; v < numVertices; v++) {
-            if (grafo[u][v] !== 0 && mstSet[v] === false && grafo[u][v] < key[v]) {
+            const peso = grafo[u][v];
+            
+            if (peso !== 0 && mstSet[v] === false && peso < key[v]) {
                 parent[v] = u;
-                key[v] = grafo[u][v];
+                key[v] = peso;
             }
         }
     }
 
-    let textoSalida = "Resultados Algoritmo de Prim (MST):\n\n";
+    let mstAristas = [];
     let costoTotal = 0;
-
-    textoSalida += "Arista   | Peso\n";
-    textoSalida += "----------------\n";
 
     for (let i = 1; i < numVertices; i++) {
         if (parent[i] !== -1) {
-            const peso = grafo[parent[i]][i];
-            textoSalida += `${parent[i]} <--> ${i}  |  ${peso}\n`;
+            const u = parent[i];
+            const v = i;
+            const peso = grafo[u][v];
+            
+            mstAristas.push({
+                u: u, 
+                v: v, 
+                peso: peso
+            });
             costoTotal += peso;
         }
     }
 
-    textoSalida += `\nCosto Total del MST: ${costoTotal}`;
-
-    const resultadoDiv = document.getElementById("resultado");
-    const tiempoDiv = document.getElementById("tiempo-analisis");
-    const espacioDiv = document.getElementById("espacio-analisis");
-
-    resultadoDiv.textContent = textoSalida;
-    tiempoDiv.textContent = "O(V²)";
-    espacioDiv.textContent = "O(V)";
-
-    console.log("Prim ejecutado. Arreglo de padres:", parent);
+    document.getElementById("tiempo-analisis").textContent = "O(V²)";
+    document.getElementById("espacio-analisis").textContent = "O(V)";
+    
+    return {
+        aristas: mstAristas,
+        costo: costoTotal
+    };
 }
