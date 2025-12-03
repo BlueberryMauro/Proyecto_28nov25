@@ -52,11 +52,12 @@ Para la gestión del proyecto se utilizó una metodología ágil adaptada:
 ---
 
 ## 5. Capturas y Enlaces del Repositorio
-*Evidencia del flujo de trabajo y control de versiones.*
+*Evidencia del flujo de trabajo y control de versiones.* <br>
 [![Historial de Cambios](https://img.shields.io/badge/Historial_de_Cambios-commits-blue?style=for-the-badge&logo=github)](https://github.com/BlueberryMauro/Proyecto_28nov25/commits/main/)
 
 ![Historial de Cambios](https://media.discordapp.net/attachments/1333954443875582042/1445892341117489252/image.png?ex=6931ffad&is=6930ae2d&hm=04c162ddff5f8acaf4a86cc146dd2feb0504e0c33b33f062d95247ed405d3c70&=&format=webp&quality=lossless&width=1256&height=852)
-
+![Historial de Cambios](https://media.discordapp.net/attachments/1333954443875582042/1445905769160507587/image.png?ex=69320c2e&is=6930baae&hm=b36afd6d670280ef59104ceeadd4a76077be444e2c9499ed53a325b49927eafd&=&format=webp&quality=lossless)
+![Historial de Cambios](https://media.discordapp.net/attachments/1333954443875582042/1445906281310453860/image.png?ex=69320ca9&is=6930bb29&hm=27641f53b4002987bcfcab43793193fb592c3bcbe09fc3ed12c5d1ff5c1866be&=&format=webp&quality=lossless)
 ---
 
 ## 6. Algoritmos Implementados
