@@ -2,14 +2,16 @@
 ### Universidad Autónoma de Aguascalientes
 ![Logo UAA](https://media.discordapp.net/attachments/1333954443875582042/1445895029615759381/image.png?ex=6932022e&is=6930b0ae&hm=173af517ea3a0c7c49511cd369e4633e7128841048695c5be87dbb55493f6248&=&format=webp&quality=lossless&width=1864&height=563)
 
-[![Ver Proyecto Web](https://img.shields.io/badge/_Ver_Proyecto_Web-blueberrymauro.github.io-blue?style=for-the-badge&logo=github&color=3F5EFB)](https://blueberrymauro.github.io/Proyecto_28nov25/)
+[![Ver Proyecto Web](https://img.shields.io/badge/▶_Ver_Proyecto_Web-blueberrymauro.github.io-3F5EFB?style=for-the-badge&logo=github&logoColor=white)](https://blueberrymauro.github.io/Proyecto_28nov25/)
+[![Documentación](https://img.shields.io/badge/📖_Manual_de_Usuario-Leer_Aquí-FF9632?style=for-the-badge)](https://github.com/BlueberryMauro/Proyecto_28nov25#manual-de-usuario)
+[![Trello](https://img.shields.io/badge/Gestión-Trello-0079BF?style=for-the-badge&logo=trello&logoColor=white)](https://trello.com/b/WM8gfx30/proyecto28nov25)
 
 ---
 
-# 📘 Manual de Usuario
+# Manual de Usuario
 *Guía interactiva para la ejecución y análisis de grafos en la plataforma web.*
 
-### 1. 🏗️ Creación y Carga de Grafos
+### 1. Creación y Carga de Grafos
 El sistema ofrece tres métodos para inicializar el área de trabajo. Dirígete al panel izquierdo **"Definición y Visualización"**.
 
 | Método | Instrucciones Paso a Paso |
@@ -18,7 +20,39 @@ El sistema ofrece tres métodos para inicializar el área de trabajo. Dirígete 
 | **B. Galería de Ejemplos** | 1. Haz clic en el **botón flotante de carpeta** 📂 (esquina superior izquierda).<br>2. Se abrirá el panel lateral con miniaturas (Dijkstra, Árbol, Bipartito...).<br>3. Haz clic en cualquier ejemplo para cargarlo automáticamente. |
 | **C. Importar Archivo** | 1. Presiona `Cargar desde Archivo .txt`.<br>2. Selecciona un archivo previamente guardado.<br>3. El sistema reconocerá automáticamente si es dirigido o ponderado. |
 
-> **Nota:** Para guardar tu progreso, usa el botón `Guardar Grafo en .txt`. Esto generará un archivo con la fecha y metadatos del grafo actual.
+> [!TIP]
+> **¿Quieres probar rápido?**
+> Usa la **Galería de Ejemplos** (Botón de carpeta 📂). Ya vienen pre-configurados con sus propiedades (Dirigido/Ponderado) listos para ejecutar algoritmos.
+
+> [!WARNING]
+> **Formato de la Matriz**
+> Si escribes la matriz manualmente, asegúrate de usar **solo números y espacios**. Si ingresas letras o símbolos extraños, el motor de dibujo podría fallar.
+
+---
+
+### 2. Interacción con el Lienzo
+Una vez dibujado el grafo, el motor físico entra en acción:
+
+* **Arrastrar:** Haz clic sostenido sobre cualquier nodo para moverlo (física elástica).
+* **Seleccionar:** Haz clic simple en un nodo para marcarlo como **Inicial**.
+
+> [!NOTE]
+> **Indicador Visual**
+> El nodo que selecciones se pintará de color **Dorado (Gold)**. Este será el punto de partida (Origen) obligatorio para algoritmos de recorrido como **BFS, DFS y Dijkstra**.
+
+---
+
+### 3. Ejecución de Algoritmos
+Dirígete al panel derecho **"Procesamiento y Análisis"**.
+
+1.  **Selecciona** el algoritmo (Búsqueda, Rutas Cortas, MST, Estructurales).
+2.  **Ejecuta** con el botón verde.
+3.  **Observa** la terminal de salida y el cambio de colores en el grafo.
+
+> [!IMPORTANT]
+> **Requisitos de Algoritmos**
+> * **Prim y Kruskal:** Solo funcionan si activaste la casilla **"Grafo Ponderado"**.
+> * **Bellman-Ford:** Es el único capaz de detectar ciclos negativos, pero es más lento que Dijkstra.
 
 ---
 
@@ -33,7 +67,6 @@ El sistema ofrece tres métodos para inicializar el área de trabajo. Dirígete 
 ---
 
 ## 2. Integrantes y Roles
-
 A continuación se detallan las responsabilidades asumidas por cada integrante, basadas en el historial de contribuciones y la división técnica del trabajo:
 
 | Nombre del Estudiante | Rol Principal | Tareas y Contribuciones Principales |
@@ -74,6 +107,7 @@ Para la gestión del proyecto se utilizó una metodología ágil adaptada:
 ![Historial de Cambios](https://media.discordapp.net/attachments/1333954443875582042/1445892341117489252/image.png?ex=6931ffad&is=6930ae2d&hm=04c162ddff5f8acaf4a86cc146dd2feb0504e0c33b33f062d95247ed405d3c70&=&format=webp&quality=lossless&width=1256&height=852) <br>
 ![Historial de Cambios](https://media.discordapp.net/attachments/1333954443875582042/1445905769160507587/image.png?ex=69320c2e&is=6930baae&hm=b36afd6d670280ef59104ceeadd4a76077be444e2c9499ed53a325b49927eafd&=&format=webp&quality=lossless) <br>
 ![Historial de Cambios](https://media.discordapp.net/attachments/1333954443875582042/1445906281310453860/image.png?ex=69320ca9&is=6930bb29&hm=27641f53b4002987bcfcab43793193fb592c3bcbe09fc3ed12c5d1ff5c1866be&=&format=webp&quality=lossless)
+
 ---
 
 ## 6. Algoritmos Implementados
