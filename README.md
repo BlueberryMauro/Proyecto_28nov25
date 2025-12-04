@@ -9,8 +9,6 @@
 ---
 
 # Manual de Usuario
-*Guía interactiva para la ejecución y análisis de grafos en la plataforma web.*
-
 ### 1. Creación y Carga de Grafos
 El sistema ofrece tres métodos para inicializar el área de trabajo. Dirígete al panel izquierdo **"Definición y Visualización"**.
 
