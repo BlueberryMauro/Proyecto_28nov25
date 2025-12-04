@@ -7,15 +7,7 @@
 [![Trello](https://img.shields.io/badge/Gestión-Trello-0079BF?style=for-the-badge&logo=trello&logoColor=white)](https://trello.com/b/WM8gfx30/proyecto28nov25)
 
 ---
-## 1. Portada
-| Detalles | Información |
-| :--- | :--- |
-| **Materia** | Estructuras Avanzadas Computacionales|
-| **Semestre** | $3^{\circ}$ (Agosto - Diciembre)|
-| **Proyecto** | Final (Evaluación Parcial)|
-| **Fecha de Entrega** | 4 de diciembre de 2025|
 
----
 # Manual de Usuario
 *Guía interactiva para la ejecución y análisis de grafos en la plataforma web.*
 
@@ -61,6 +53,16 @@ Dirígete al panel derecho **"Procesamiento y Análisis"**.
 > **Requisitos de Algoritmos**
 > * **Prim y Kruskal:** Solo funcionan si activaste la casilla **"Grafo Ponderado"**.
 > * **Bellman-Ford:** Es el único capaz de detectar ciclos negativos, pero es más lento que Dijkstra.
+
+---
+
+## 1. Portada
+| Detalles | Información |
+| :--- | :--- |
+| **Materia** | Estructuras Avanzadas Computacionales|
+| **Semestre** | $3^{\circ}$ (Agosto - Diciembre)|
+| **Proyecto** | Final (Evaluación Parcial)|
+| **Fecha de Entrega** | 4 de diciembre de 2025|
 
 ---
 
