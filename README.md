@@ -6,6 +6,22 @@
 
 ---
 
+# 📘 Manual de Usuario
+*Guía interactiva para la ejecución y análisis de grafos en la plataforma web.*
+
+### 1. 🏗️ Creación y Carga de Grafos
+El sistema ofrece tres métodos para inicializar el área de trabajo. Dirígete al panel izquierdo **"Definición y Visualización"**.
+
+| Método | Instrucciones Paso a Paso |
+| :--- | :--- |
+| **A. Entrada Manual** | 1. Escribe la **Matriz de Adyacencia** en el área de texto.<br>2. Configura los interruptores: **¿Es Dirigido?** / **¿Es Ponderado?**.<br>3. Presiona el botón azul `Cargar y Dibujar Grafo`. |
+| **B. Galería de Ejemplos** | 1. Haz clic en el **botón flotante de carpeta** 📂 (esquina superior izquierda).<br>2. Se abrirá el panel lateral con miniaturas (Dijkstra, Árbol, Bipartito...).<br>3. Haz clic en cualquier ejemplo para cargarlo automáticamente. |
+| **C. Importar Archivo** | 1. Presiona `Cargar desde Archivo .txt`.<br>2. Selecciona un archivo previamente guardado.<br>3. El sistema reconocerá automáticamente si es dirigido o ponderado. |
+
+> **Nota:** Para guardar tu progreso, usa el botón `Guardar Grafo en .txt`. Esto generará un archivo con la fecha y metadatos del grafo actual.
+
+---
+
 ## 1. Portada
 | Detalles | Información |
 | :--- | :--- |
@@ -86,7 +102,7 @@ El sistema permite la creación dinámica de grafos dirigidos, no dirigidos y po
 
 ## 8. Análisis y Discusión
 
-Durante el desarrollo de este laboratorio de grafos, se observó que la elección de la estructura de datos fundamental, en este caso la **Matriz de Adyacencia**, influye directamente en la complejidad temporal. Como señala freeCodeCamp (2024), "las listas de adyacencia son mejores para grafos dispersos", (freeCodeCamp, 2024) mientras que nuestra elección de matriz penaliza el rendimiento en recorridos simples elevando su costo a $O(V^2)$, aunque facilita la verificación de conexiones en $O(1)$.
+Durante el desarrollo de este laboratorio de grafos, se observó que la elección de la estructura de datos fundamental, en este caso la **Matriz de Adyacencia**, influye directamente en la complejidad temporal. Como señala Carnes (2017), "las listas de adyacencia son mejores para grafos dispersos", (Carnes, 2017) mientras que nuestra elección de matriz penaliza el rendimiento en recorridos simples elevando su costo a $O(V^2)$, aunque facilita la verificación de conexiones en $O(1)$.
 
 La visualización gráfica mediante el elemento Canvas de HTML5 presentó un desafío técnico significativo referente a la sincronización entre el estado lógico del algoritmo, como los nodos visitados o aristas resultantes, y su representación visual. Se optó por un sistema de renderizado que redibuja el grafo completo en cada ciclo de animación, permitiendo movimientos fluidos y retroalimentación visual inmediata como el coloreado de grafos bipartitos o el trazado de rutas críticas.
 
@@ -101,11 +117,11 @@ El proyecto cumplió su objetivo de implementar y mostrar una biblioteca sólida
 ## 10. Bibliografía
 
 * Brilliant. (2024). *Bellman-Ford Algorithm*. Brilliant.org. Recuperado de https://brilliant.org/wiki/bellman-ford-algorithm/
-* CP-Algorithms. (2023). *Floyd-Warshall Algorithm*. CP-Algorithms. Recuperado de https://cp-algorithms.com/graph/floyd-warshall.html
-* freeCodeCamp. (2024). *Adjacency Matrix vs Adjacency List – Graph Data Structures Explained*. freeCodeCamp.org. Recuperado de https://www.freecodecamp.org/news/adjacency-matrix-vs-adjacency-list/
+* CP-Algorithms. (2023). Floyd-Warshall - finding all shortest paths - Algorithms for Competitive Programming. https://cp-algorithms.com/graph/all-pair-shortest-path-floyd-warshall.html
+* Carnes, B. (2017, 5 julio). 10 Common Data Structures Explained with Videos + Exercises. freeCodeCamp.org. https://www.freecodecamp.org/news/10-common-data-structures-explained-with-videos-exercises-aaff6c06fb2b/#:~:text=An%20adjacency%20list%20can%20be,different%20node%20in%20the%20graph.
 * GeeksforGeeks. (2023). *Kruskal’s Minimum Spanning Tree Algorithm*. GeeksforGeeks. Recuperado de https://www.geeksforgeeks.org/kruskals-minimum-spanning-tree-algorithm-greedy-algo-2/
 * GeeksforGeeks. (2024). *Graph Data Structure And Algorithms*. GeeksforGeeks. Recuperado de https://www.geeksforgeeks.org/graph-data-structure-and-algorithms/
-* Jenkins, J. (2023). *Prim's Algorithm for Minimum Spanning Trees*. Baeldung on Computer Science. Recuperado de https://www.baeldung.com/cs/prims-algorithm
+* Jenkins, J. (2023). *Prim's Algorithm for Minimum Spanning Trees*. Baeldung on Computer Science. Recuperado de https://www.baeldung.com/cs/prim-algorithm
 * Programiz. (2024). *Dijkstra's Algorithm*. Programiz. Recuperado de https://www.programiz.com/dsa/dijkstra-algorithm
 * VisuAlgo. (s.f.). *Visualising Data Structures and Algorithms through Animation*. VisuAlgo.net. Recuperado de https://visualgo.net/en
 * Universidad Autónoma de Aguascalientes. (2025). Estructuras computacionales avanzadas: Proyecto [Material de la asignatura]. Centro de Ciencias Básicas, Departamento de Ciencias de la Computación.
